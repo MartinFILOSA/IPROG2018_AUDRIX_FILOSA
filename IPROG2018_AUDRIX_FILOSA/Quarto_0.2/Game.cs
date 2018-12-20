@@ -9,7 +9,7 @@ namespace Quarto_02
     public class Game
     {
 
-        //================================variables=================================
+        //================================variables==================================
         public static string[,] board = new string[4, 4]; //Tableau représentant les cases du plateau
         public static int[][] pieces_jouables = new int[16][]; //Tableau contenant les pièces jouables
         public static int[][] pieces_jouees = new int[16][]; //Tableau contenant les pièces déja jouées

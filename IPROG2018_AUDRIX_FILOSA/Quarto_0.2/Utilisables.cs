@@ -227,7 +227,7 @@ namespace Quarto_02
 
             }
 
-            //if (win) PlayVictoryMusic();
+            if (win) PlayVictoryMusic();
             return win;
             //...
             //throw new NotImplementedException();
