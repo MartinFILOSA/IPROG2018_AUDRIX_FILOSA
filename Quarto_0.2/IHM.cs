@@ -160,7 +160,7 @@ namespace Quarto_02
                 }
             Console.BackgroundColor = ConsoleColor.White;
             Console.ForegroundColor = ConsoleColor.Black;
-            Console.SetCursorPosition(width / 2, height / 2);
+            Console.SetCursorPosition(width / 2, (height / 2) -20);
             for (int l = width / 2; l < width; l++)
                 Console.Write(Convert.ToString('\u2500'));
 
@@ -307,6 +307,7 @@ namespace Quarto_02
             DisplayCenteredText("PAUSE", 5);
             DisplayButtons(new string[] { "Continue", "Save" }, currentPauseButton, 15);
         }
+
         public static void WinScreen(int who)
         {
             if (who == 1) Console.Write("\n + L'ordinateur à gagné");
