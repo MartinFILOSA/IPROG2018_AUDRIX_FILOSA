@@ -33,7 +33,7 @@ namespace Quarto_02
             int startLevel = height;
             Console.BackgroundColor = ConsoleColor.White;
             if (current) Console.ForegroundColor = ConsoleColor.DarkRed;
-            else Console.ForegroundColor = ConsoleColor.DarkGray;
+            else Console.ForegroundColor = ConsoleColor.Black;
             string[] lines = CreateButton(text);
             if (position == "left") foreach (string line in lines) { DisplayLeftText(line, startLevel); startLevel++;}
             else if (position == "center") foreach (string line in lines) { DisplayCenteredText(line, startLevel); startLevel++; }
@@ -44,19 +44,20 @@ namespace Quarto_02
         public static string[] CreateButton(string text)                            // Fonction qui permet la création des boutons du menu
         {
             Console.OutputEncoding = System.Text.Encoding.UTF8;
-            char horizontalLine = '\u2500';
-            char topLeftCorner = '\u250C';
-            char topRightCorner = '\u2510';
-            char bottomLeftCorner = '\u2514';
-            char bottomRightCorner = '\u2518';
-            char verticalLine = '\u2502';
 
-            string[] lines = new string[3];
-            lines[0] = new String(topLeftCorner, 1) + new String(horizontalLine ,text.Length+2) + new String(topRightCorner, 1);
-            //lines[1] = verticalLine + new String(' ', text.Length+2) +verticalLine;
-            lines[1] = Convert.ToString(verticalLine) + ' ' + text + ' ' + Convert.ToString(verticalLine);
-            //lines[3] = lines[1];
-            lines[2] = new String(bottomLeftCorner, 1) + new String(horizontalLine, text.Length + 2) + new String(bottomRightCorner, 1); ;
+            char horizontalLine = '\u2550';
+            char topLeftCorner = '\u2554';
+            char topRightCorner = '\u2557';
+            char bottomLeftCorner = '\u255A';
+            char bottomRightCorner = '\u255D';
+            char verticalLine = '\u2551';
+
+            string[] lines = new string[5];
+            lines[0] = new String(topLeftCorner, 1) + new String(horizontalLine ,text.Length+4) + new String(topRightCorner, 1);
+            lines[1] = verticalLine + new String(' ', text.Length+4) +verticalLine;
+            lines[2] = Convert.ToString(verticalLine) + "  " + text + "  " + Convert.ToString(verticalLine);
+            lines[3] = lines[1];
+            lines[4] = new String(bottomLeftCorner, 1) + new String(horizontalLine, text.Length + 4) + new String(bottomRightCorner, 1); ;
 
             return lines;
         }
@@ -126,15 +127,261 @@ namespace Quarto_02
         {
             //ParseNDisplay("C:\\Users\\simon\\Desktop\\Cours 1A\\Projets\\IHM\\Quarto_0.2\\DisplayMenu.txt");
             //Console.ReadKey();
-            Console.ForegroundColor = ConsoleColor.DarkGray;
-            DisplayCenteredText("Welcome on Quarto !", 1);
+            Console.ForegroundColor = ConsoleColor.Black;
+            Console.OutputEncoding = System.Text.Encoding.UTF8;
+            
+            char block = '\u2588';
+            char darkShadow = '\u2593';
+            char shadow =  '\u2592';
+            char lightShadow = '\u2591';
+
+            //========================================================Q=============================================================
+            Console.SetCursorPosition(35, 5);
+            Console.Write(new String(block, 7));
+            Console.SetCursorPosition(34, 6);
+            Console.Write(new String(block, 9));
+            Console.SetCursorPosition(33, 7);
+            Console.Write(new String(block, 2) + new String(shadow, 4) + "  " + new String(block, 3));
+            Console.SetCursorPosition(33, 8);
+            Console.Write(new String(block, 2) + new String(shadow, 1) + "      " + new String(block, 2) + new String(shadow, 1));
+            Console.SetCursorPosition(33, 9);
+            Console.Write(new String(block, 2) + new String(shadow, 1) + "      " + new String(block, 2) + new String(shadow, 1));
+            Console.SetCursorPosition(33, 10);
+            Console.Write(new String(block, 2) + new String(shadow, 1) + "      " + new String(block, 2) + new String(shadow, 1));
+            Console.SetCursorPosition(33, 11);
+            Console.Write(new String(block, 2) + "   " + new String(block, 2) + "  " + new String(block, 2)+ new String(shadow, 1));
+            Console.SetCursorPosition(34, 12);
+            Console.Write(new String(block, 9) + new String(shadow, 1));
+            Console.SetCursorPosition(35, 13);
+            Console.Write(new String(block, 7));
+            Console.SetCursorPosition(41, 14);
+            Console.Write(new String(block, 2));
+
+            //========================================================U=============================================================
+            Console.SetCursorPosition(50, 5);
+            Console.Write(new String(block, 2) + new String(' ', 6) + new String(block, 2) + new String(shadow, 1));
+            for(int i = 6; i < 12; i++)
+            { 
+                Console.SetCursorPosition(50, i);
+                Console.Write(new String(block, 2) + new String(shadow, 1) + new String(' ', 5) + new String(block, 2) + new String(shadow, 1));
+            }
+            Console.SetCursorPosition(50, 12);
+            Console.Write(new String(block, 10) + new String(shadow, 1));
+            Console.SetCursorPosition(52, 13);
+            Console.Write(new String(block, 6) + new String(shadow, 1));
+
+            //========================================================A=============================================================
+
+            Console.SetCursorPosition(67, 5);
+            Console.Write(new String(block, 6));
+            Console.SetCursorPosition(65, 6);
+            Console.Write(new String(block, 2) + "      " + new String(block, 2) + new String(shadow, 1));
+            for (int i = 7; i < 14; i++)
+            {
+                Console.SetCursorPosition(65, i);
+                Console.Write(new String(block, 2) + new String(shadow,1) + "     " + new String(block, 2) + new String(shadow, 1));
+            }
+            Console.SetCursorPosition(65, 9);
+            Console.Write(new String(block, 8));
+            Console.SetCursorPosition(68, 10);
+            Console.Write(new String(shadow, 3));
+
+            //========================================================R=============================================================
+
+            Console.SetCursorPosition(82, 5);
+            Console.Write(new String(block, 6));
+            Console.SetCursorPosition(80, 6);
+            Console.Write(new String(block, 2) + "      " + new String(block, 2) + new String(shadow, 1));
+            for (int i = 7; i < 14; i++)
+            {
+                Console.SetCursorPosition(80, i);
+                Console.Write(new String(block, 2) + new String(shadow, 1) + "     " + new String(block, 2) + new String(shadow, 1));
+            }
+            Console.SetCursorPosition(80, 9);
+            Console.Write(new String(block, 8) + new String(' ', 4));
+            Console.SetCursorPosition(83, 10);
+            Console.Write(new String(shadow, 3));
+
+            //========================================================T=============================================================
+
+            for (int i = 3; i < 14; i++)
+            {
+                Console.SetCursorPosition(94, i);
+                Console.Write(new String(block, 2) + new String(shadow, 1));
+            }
+            Console.SetCursorPosition(35, 3);
+            Console.Write(new String(block, 80));
+            /*Console.SetCursorPosition(10, 3);
+            Console.Write(new String(shadow, 85));*/
+
+            Console.SetCursorPosition(45, 15);
+            Console.Write(new String(block, 70));
+            Console.SetCursorPosition(46, 16);
+            Console.Write(new String(shadow, 70));
+
+            //========================================================O=============================================================
+
+            Console.SetCursorPosition(102, 5);
+            Console.Write(new String(block, 6));
+            Console.SetCursorPosition(100, 6);
+            Console.Write(new String(block, 2) + "      " + new String(block, 2) + new String(shadow, 1));
+            for (int i = 7; i < 13; i++)
+            {
+                Console.SetCursorPosition(100, i);
+                Console.Write(new String(block, 2) + new String(shadow, 1) + "     " + new String(block, 2) + new String(shadow, 1));
+            }
+
+            Console.SetCursorPosition(102, 13);
+            Console.Write(new String(block, 6));
+
+            //=====================================================LOCK=UP===========================================================
+
+            for(int i = 3; i < 16; i++)
+            {
+                Console.SetCursorPosition(115, i);
+                Console.Write(new String(block, 1));
+            }
+
+            for (int i = 4; i < 17; i++)
+            {
+                Console.SetCursorPosition(116, i);
+                Console.Write(new String(shadow, 1));
+            }
+            /*DisplayCenteredText("Welcome on Quarto !", 1);
             DisplayCenteredText("The rules are simple...", 3);
             DisplayCenteredText("You place the pieces but you don't get to choose them...", 5);
-            DisplayCenteredText("Your opponent does it for you", 7);
-            DisplayButtons(new string[] { "Rules", "Play", "Exit" }, current, 15);
+            DisplayCenteredText("Your opponent does it for you", 7);*/
+
+            DisplayButtons(new string[] { "Rules", "Play", "Exit" }, current, 25);
+
+            Console.ForegroundColor = ConsoleColor.Black;
+
+            //========================================================E=============================================================
+
+            Console.SetCursorPosition(64, 40);
+            Console.Write(new String(block, 4));
+            for(int i = 40; i < 44; i++)
+            {
+                Console.SetCursorPosition(64, i);
+                Console.Write(Convert.ToString(block));
+            }
+            Console.SetCursorPosition(64, 44);
+            Console.Write(new String(block, 4));
+            Console.SetCursorPosition(64, 42);
+            Console.Write(new String(block,2));
+
+            //========================================================N=============================================================
+
+            for (int i = 40; i < 45; i++)
+            {
+                Console.SetCursorPosition(70, i);
+                Console.Write(Convert.ToString(block) +"   "+ Convert.ToString(block));
+            }
+            for (int i = 0; i < 3; i++)
+                for(int j = 0; j < 5; j++)
+                {
+                    if(i == j)
+                    {
+                        Console.SetCursorPosition(71+i, 41+j);
+                        Console.Write(Convert.ToString(block));
+
+                    }
+                }
+
+            //========================================================S=============================================================
+
+            for(int i = 40; i < 45; i += 2)
+            {
+                Console.SetCursorPosition(77, i);
+                Console.Write(new String(block, 4));
+            }
+
+            Console.SetCursorPosition(77, 41);
+            Console.Write(Convert.ToString(block));
+
+            Console.SetCursorPosition(80, 43);
+            Console.Write(Convert.ToString(block));
+
+            //========================================================C=============================================================
+
+            for(int i = 40; i < 45; i++)
+            {
+                Console.SetCursorPosition(83, i);
+                Console.Write(Convert.ToString(block));
+            }
+            for (int i = 84; i < 88; i++)
+            {
+                Console.SetCursorPosition(i, 40);
+                Console.Write(Convert.ToString(block));
+                Console.SetCursorPosition(i, 44);
+                Console.Write(Convert.ToString(block));
+            }
+
+            Console.SetCursorPosition(87, 41);
+            Console.Write(Convert.ToString(block));
+            Console.SetCursorPosition(87, 43);
+            Console.Write(Convert.ToString(block));
+
+            //========================================================LOGO==========================================================
+
+            /*char line = '\u2550';
+            char diagUp = '\u2571';
+            char diagDown = '\u2572';
+            Console.ForegroundColor = ConsoleColor.Magenta;
+            Console.SetCursorPosition(92, 42);
+            Console.Write(new String(line, 11));
+            Console.ForegroundColor = ConsoleColor.Blue;
+            for (int i = 0; i < 6; i++)
+                for (int j = 0; j < 7; j++)
+                {
+                    if (i == j)
+                    {
+                        Console.SetCursorPosition(90 + i, 38 - j);
+                        Console.Write(Convert.ToString(diagUp));
+
+                    }
+                }
+            Console.ForegroundColor = ConsoleColor.Green;
+            
+            for (int i = 0; i < 6; i++)
+                for (int j = 0; j < 7; j++)
+                {
+                    if (i == j)
+                    {
+                        Console.SetCursorPosition(95 - i, 52 - j);
+                        Console.Write(Convert.ToString(diagDown));
+
+                    }
+                }*/
+
+            //======================================================AUTHORS=========================================================
+            Console.ForegroundColor = ConsoleColor.Black;
+            char horizontalLine = '\u2550';
+            char topLeftCorner = '\u2554';
+            char topRightCorner = '\u2557';
+            char bottomLeftCorner = '\u255A';
+            char bottomRightCorner = '\u255D';
+            char verticalLine = '\u2551';
+            DisplayCenteredText(Convert.ToString(topLeftCorner) + new String(horizontalLine, 70)+ Convert.ToString(topRightCorner), 48);
+            DisplayCenteredText("Ce jeux à été réalisé par AUDRIX Simon et FILOSA Martin", 50);
+            DisplayCenteredText("Dans le cadre d'un projet informatique de première année", 52);
+            DisplayCenteredText("Dernière modification le: 23/12/2018 à 23:11", 54);
+            DisplayCenteredText(Convert.ToString(bottomLeftCorner) + new String(horizontalLine, 70) + Convert.ToString(bottomRightCorner), 56);
+
+            for (int i = 49; i < 56; i++)
+            {
+                Console.SetCursorPosition(39, i);
+                Console.Write(Convert.ToString(verticalLine));
+                Console.SetCursorPosition(110, i);
+                Console.Write(Convert.ToString(verticalLine));
+            }
+
+            //======================================================VERSIONS=========================================================
+            Console.SetCursorPosition(125,0);
+            Console.Write("VERSION : 2.0.4 - CD-Menu");
 
         }
-        
+
         public static void DisplayLoadScreen(int currentLSButton)       // Affichage menu de jeu : Charger ou recommencer une partie
         {
             Console.Clear();
