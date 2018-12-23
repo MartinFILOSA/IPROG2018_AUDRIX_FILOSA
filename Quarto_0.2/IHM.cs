@@ -289,6 +289,7 @@ namespace Quarto_02
 
 
 
+
                     x += caseEmpty.Length;
                 }
                 y += 8;
