@@ -44,8 +44,7 @@ namespace Quarto_02
                 if (currentMenuButton < 0) currentMenuButton = Math.Abs(currentMenuButton+3)%3;
             }
 
-
-            //IHM.DisplayBoard(board);
+            
             int currentLSButton = 1;
             while(newgame)                                                              // Menu de jeu, charger, nouvelle partie
             {
@@ -64,6 +63,9 @@ namespace Quarto_02
 
 
             }
+
+            IHM.DisplayGameScreen(board, 0);
+
             int currentPiece = 0;
             int currentDrop = 0;
             bool madeChoice = false;

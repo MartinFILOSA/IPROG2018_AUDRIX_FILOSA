@@ -143,9 +143,27 @@ namespace Quarto_02
 
         }
 
-        public static void DisplayGameScreen(string[,] board, int[][] pieces_jouables, int current)         // Affichage de l'interface de jeu
+        public static void DisplayGameScreen(string[,] board, int current)         // Affichage de l'interface de jeu
         {
             Console.Clear();
+
+            Console.Clear();
+            Console.BackgroundColor = ConsoleColor.Black;
+
+            int height = Console.WindowHeight;
+            int width = Console.WindowWidth;
+            for (int i = 0; i < width / 2; i++)
+                for (int j = 0; j < height; j++)
+                {
+                    Console.SetCursorPosition(i, j);
+                    Console.Write(" ");
+                }
+            Console.BackgroundColor = ConsoleColor.White;
+            Console.ForegroundColor = ConsoleColor.Black;
+            Console.SetCursorPosition(width / 2, height / 2);
+            for (int l = width / 2; l < width; l++)
+                Console.Write(Convert.ToString('\u2500'));
+
             DisplayBoard(board,current);
             //DisplayPieces(0);
         }
@@ -162,7 +180,7 @@ namespace Quarto_02
                 }
                 Console.Write(" | " + pieces_jouables[i][0] + " | ");
                 Console.BackgroundColor = ConsoleColor.White;
-                Console.ForegroundColor = ConsoleColor.DarkGray;
+                Console.ForegroundColor = ConsoleColor.Black;
             }
         }
 
@@ -175,70 +193,110 @@ namespace Quarto_02
                     Console.BackgroundColor = ConsoleColor.DarkBlue;
                     Console.ForegroundColor = ConsoleColor.White;
                 }
-                //else Console.BackgroundColor = ConsoleColor.White;
+
                 Console.Write(" | " + pieces_jouables[i][0] + " | ");
+
                 Console.BackgroundColor = ConsoleColor.White;
-                Console.ForegroundColor = ConsoleColor.DarkGray;
+                Console.ForegroundColor = ConsoleColor.Black;
             }
         }
 
         public static void DisplayBoard(string[,] board, int current)       // Affichage du plateau de jeu
         {
-            Console.Clear();
-            Console.BackgroundColor = ConsoleColor.White;
-            Console.SetCursorPosition(0, 10);
-            /*for (int i = 0; i < board.GetLength(0); i++)
-            {
-                for (int j = 0; j < board.GetLength(1); j++)
-                { 
-                    if (Utilisables.Coord2Pos(i, j, board) == current) Console.BackgroundColor = ConsoleColor.DarkRed;
-                    else Console.BackgroundColor = ConsoleColor.White;
-                    Console.Write((board[i, j]) + " ");
-                }
-                Console.Write("\n");
-            }*/
-            int x = 0;
-            int y = 0;
+
+            int x = 10;
+            int y = (Console.WindowHeight/2)-25;
+            string caseFull = "            ";
+            string caseEmpty = "              ";
             for (int i = 0; i <= 3; i++)
             {
-                x = 0;
-                //Console.SetCursorPosition(x, y);
+                x = 10;
                 for (int j = 0; j <= 3; j++)                // On affiche chaque ligne à la suite
                 {
-                    
+                    ConsoleColor empty = ConsoleColor.White;
+                    ConsoleColor currentPlace = ConsoleColor.DarkRed;
+
                     Console.SetCursorPosition(x, y);
-                    Console.Write("==========");
-                    Console.SetCursorPosition(x, y + 1);
-                    Console.Write("|        |");
-                    Console.SetCursorPosition(x, y + 2);
-                    Console.Write("|        |");
-
-                    Console.SetCursorPosition(x, y + 3);                        // On modifie uniquement le texte 
-                    Console.Write("|  ");
+                    Console.BackgroundColor = ConsoleColor.Black;
+                    Console.Write(caseEmpty);
                     if (Utilisables.Coord2Pos(i, j, board) == current)
-                    {
-                        Console.BackgroundColor = ConsoleColor.DarkRed;
-                        Console.ForegroundColor = ConsoleColor.White;
-                    }
-                    Console.Write(board[i, j]);
-                    Console.BackgroundColor = ConsoleColor.White;
-                    Console.ForegroundColor = ConsoleColor.DarkGray;
-                    Console.Write("  |");
-
+                        Console.BackgroundColor = currentPlace;
+                    else Console.BackgroundColor = empty;
+                    //============================================
+                    Console.SetCursorPosition(x, y + 1);
+                    Console.Write(caseFull);
+                    Console.BackgroundColor = ConsoleColor.Black;
+                    Console.Write(" ");
+                    if (Utilisables.Coord2Pos(i, j, board) == current)
+                        Console.BackgroundColor = currentPlace;
+                    else Console.BackgroundColor = empty;
+                    //============================================
+                    Console.SetCursorPosition(x, y + 2);
+                    Console.Write(caseFull);
+                    Console.BackgroundColor = ConsoleColor.Black;
+                    Console.Write(" ");
+                    if (Utilisables.Coord2Pos(i, j, board) == current)
+                        Console.BackgroundColor = currentPlace;
+                    else Console.BackgroundColor = empty;
+                    //============================================
+                    Console.SetCursorPosition(x, y + 3);
+                    Console.Write(caseFull);
+                    Console.BackgroundColor = ConsoleColor.Black;
+                    Console.Write(" ");
+                    if (Utilisables.Coord2Pos(i, j, board) == current)
+                        Console.BackgroundColor = currentPlace;
+                    else Console.BackgroundColor = empty;
+                    //==============PieceSpotForNow===============
                     Console.SetCursorPosition(x, y + 4);
-                    Console.Write("|        |");
+                    if (Utilisables.Coord2Pos(i, j, board) == current)
+                        Console.BackgroundColor = currentPlace;
+                    else Console.BackgroundColor = empty;
+                    Console.Write("    " + board[i, j] + "    ");
+                    Console.BackgroundColor = ConsoleColor.Black;
+                    Console.Write(" ");
+                    if (Utilisables.Coord2Pos(i, j, board) == current)
+                        Console.BackgroundColor = currentPlace;
+                    else Console.BackgroundColor = empty;
+                    //============================================
                     Console.SetCursorPosition(x, y + 5);
-                    Console.Write("|        |");
+                    Console.Write(caseFull);
+                    Console.BackgroundColor = ConsoleColor.Black;
+                    Console.Write(" ");
+                    if (Utilisables.Coord2Pos(i, j, board) == current)
+                        Console.BackgroundColor = currentPlace;
+                    else Console.BackgroundColor = empty;
+                    //============================================
                     Console.SetCursorPosition(x, y + 6);
-                    
-                    x += 9;
-                    
-                    //Console.WriteLine();
+                    Console.Write(caseFull);
+                    Console.BackgroundColor = ConsoleColor.Black;
+                    Console.Write(" ");
+                    if (Utilisables.Coord2Pos(i, j, board) == current)
+                        Console.BackgroundColor = currentPlace;
+                    else Console.BackgroundColor = empty;
+                    //============================================
+                    Console.SetCursorPosition(x, y + 7);
+                    Console.Write(caseFull);
+                    Console.BackgroundColor = ConsoleColor.Black;
+                    Console.Write(" ");
+                    if (Utilisables.Coord2Pos(i, j, board) == current)
+                        Console.BackgroundColor = currentPlace;
+                    else Console.BackgroundColor = empty;
+                    //============================================
+                    Console.SetCursorPosition(x, y + 8);
+                    Console.Write(caseFull);
+                    Console.BackgroundColor = ConsoleColor.Black;
+                    Console.Write(" ");
+
+
+
+                    x += caseEmpty.Length;
                 }
-                y += 6;
+                y += 8;
             }
             Console.SetCursorPosition(0, y);
-            Console.WriteLine(@"=====================================");
+            Console.BackgroundColor = ConsoleColor.Black;
+
+            Console.WriteLine(caseEmpty + " " + caseEmpty + " " + caseEmpty + " " + caseEmpty + " " + caseEmpty);
             Console.BackgroundColor = ConsoleColor.White;
         }
 

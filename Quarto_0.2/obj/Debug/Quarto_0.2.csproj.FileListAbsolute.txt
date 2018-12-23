@@ -25,3 +25,10 @@ C:\Users\simon\Desktop\Cours 1A\IPROG2018_AUDRIX_FILOSA\IPROG2018_AUDRIX_FILOSA\
 C:\Users\simon\Desktop\Cours 1A\IPROG2018_AUDRIX_FILOSA\IPROG2018_AUDRIX_FILOSA\Quarto_0.2\obj\Debug\Quarto_0.2.csproj.CoreCompileInputs.cache
 C:\Users\simon\Desktop\Cours 1A\IPROG2018_AUDRIX_FILOSA\IPROG2018_AUDRIX_FILOSA\Quarto_0.2\obj\Debug\Quarto_0.2.exe
 C:\Users\simon\Desktop\Cours 1A\IPROG2018_AUDRIX_FILOSA\IPROG2018_AUDRIX_FILOSA\Quarto_0.2\obj\Debug\Quarto_0.2.pdb
+C:\Users\simon\Desktop\Cours 1A\IPROG2018_AUDRIX_FILOSA\Quarto_0.2\bin\Debug\Quarto_0.2.exe.config
+C:\Users\simon\Desktop\Cours 1A\IPROG2018_AUDRIX_FILOSA\Quarto_0.2\bin\Debug\Quarto_0.2.exe
+C:\Users\simon\Desktop\Cours 1A\IPROG2018_AUDRIX_FILOSA\Quarto_0.2\bin\Debug\Quarto_0.2.pdb
+C:\Users\simon\Desktop\Cours 1A\IPROG2018_AUDRIX_FILOSA\Quarto_0.2\obj\Debug\Quarto_0.2.csprojAssemblyReference.cache
+C:\Users\simon\Desktop\Cours 1A\IPROG2018_AUDRIX_FILOSA\Quarto_0.2\obj\Debug\Quarto_0.2.csproj.CoreCompileInputs.cache
+C:\Users\simon\Desktop\Cours 1A\IPROG2018_AUDRIX_FILOSA\Quarto_0.2\obj\Debug\Quarto_0.2.exe
+C:\Users\simon\Desktop\Cours 1A\IPROG2018_AUDRIX_FILOSA\Quarto_0.2\obj\Debug\Quarto_0.2.pdb
