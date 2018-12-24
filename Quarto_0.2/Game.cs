@@ -79,7 +79,7 @@ namespace Quarto_02
                     while (!madeChoice)
                     {
                         IHM.DisplayBoard(board, -1);
-                        IHM.DisplayPieces(pieces_jouables, currentPiece);
+                        IHM.DisplayPieces(pieces_jouables, pieces_jouees, currentPiece, board);
 
                         System.ConsoleKeyInfo Button = Console.ReadKey();
                         if (Button.Key == ConsoleKey.LeftArrow) currentPiece = (currentPiece -= 1) % pieces_jouables.GetLength(0);

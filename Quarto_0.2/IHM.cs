@@ -415,20 +415,131 @@ namespace Quarto_02
             //DisplayPieces(0);
         }
 
-        public static void DisplayPieces(int[][] pieces_jouables, int current)  //Selection de pièces par le joueur
+        public static void DisplayPieces(int[][] pieces_jouables, int[][] pieces_jouees, int current, string[,] board)  //Selection de pièces par le joueur
         {
-            Console.WriteLine("\n\n ");
-            for(int i = 0; i < pieces_jouables.GetLength(0); i++)
+            string verticalBord = "\u2502";
+            string horizontalBord = "\u2500";
+            string pieceHole = "_";
+
+            string pieceSTopLeft = "\u250C";
+            string pieceSTopRight = "\u2510";
+            string pieceSBottomLeft = "\u2514";
+            string pieceSBottomRight = "\u2518";
+
+            string pieceRTopLeft = "\u256D";
+            string pieceRTopRight = "\u256E";
+            string pieceRBottomLeft = "\u2570";
+            string pieceRBottomRight = "\u256F";
+
+            //Définition pour les pièces carrées avec et sans trou
+            string squareCloseTop = pieceSTopLeft + new String(Convert.ToChar(horizontalBord),3) + pieceSTopRight;
+            string squareHoledTop = pieceSTopLeft + pieceSTopRight + pieceHole + pieceSTopLeft + pieceSTopRight;
+            string squareBottom = pieceSBottomLeft + new String(Convert.ToChar(horizontalBord), 3) + pieceSBottomRight;
+
+            //Définition pour les pièces rondes avec et sans trou
+            string circlCloseTop = pieceRTopLeft + new String(Convert.ToChar(horizontalBord), 3) + pieceRTopRight;
+            string circleHoledTop = pieceRTopLeft + pieceRTopRight + pieceHole + pieceRTopLeft + pieceRTopRight;
+            string circleBottom = pieceRBottomLeft + new String(Convert.ToChar(horizontalBord), 3) + pieceRBottomRight;
+
+            //Bord général rectiligne
+            string line = verticalBord + "   " + verticalBord;
+            string holeLine = verticalBord + " U " + verticalBord;
+            string roundLine = verticalBord + " O " + verticalBord;
+
+            string[] piecesRep = new string[] {squareCloseTop+"-"+line+"-"+line+"-"+squareBottom,
+                                               squareCloseTop+"-"+line+"-"+line+"-"+squareBottom,
+                                               squareHoledTop+"-"+line+"-"+line+"-"+squareBottom,
+                                               squareHoledTop+"-"+line+"-"+line+"-"+squareBottom,
+                                               circlCloseTop+"-"+line+"-"+roundLine+"-"+circleBottom,
+                                               circlCloseTop+"-"+line+"-"+roundLine+"-"+circleBottom,
+                                               circleHoledTop+"-"+line+"-"+roundLine+"-"+circleBottom,
+                                               circleHoledTop+"-"+line+"-"+roundLine+"-"+circleBottom,
+
+                                               squareCloseTop+"-"+line+"-"+line+"-"+line+"-"+squareBottom,
+                                               squareCloseTop+"-"+line+"-"+line+"-"+line+"-"+squareBottom,
+                                               squareHoledTop+"-"+line+"-"+line+"-"+line+"-"+squareBottom,
+                                               squareHoledTop+"-"+line+"-"+line+"-"+line+"-"+squareBottom,
+                                               circlCloseTop+"-"+line+"-"+line+"-"+roundLine+"-"+circleBottom,
+                                               circlCloseTop+"-"+line+"-"+line+"-"+roundLine+"-"+circleBottom,
+                                               circleHoledTop+"-"+line+"-"+line+"-"+roundLine+"-"+circleBottom,
+                                               circleHoledTop+"-"+line+"-"+line+"-"+roundLine+"-"+circleBottom,
+            };
+
+            int[] piecesX = new int[] {94,105,112,123};
+            int[] piecesY = new int[] {14,24,34,44};
+            
+
+            foreach(int[] piece in pieces_jouables)
+            {
+                Utilisables.Pos2Coord(out int x, out int y, piece[0], board);
+                
+                string[] lines = piecesRep[piece[0]-1].Split('-');
+                int height = 0;
+                if (piece[4] == 0) Console.ForegroundColor = ConsoleColor.DarkBlue;
+                else Console.ForegroundColor = ConsoleColor.DarkRed;
+                foreach (string lineP in lines)
+                {
+                    Console.SetCursorPosition(piecesX[x%4], piecesY[y]+height);
+                    Console.Write(lineP);
+                    height++;
+                }
+            }
+            
+            foreach(int[] piece in pieces_jouees)
+            {
+                if(piece != null)
+                {
+                    Utilisables.Pos2Coord(out int x, out int y, piece[0], board);
+                    int heigth = 0;
+                    for (int i = 0; i < 4; i++)
+                        for (int j = 0; j < 4; j++)
+                        {
+                            Console.SetCursorPosition(piecesX[x % 4], piecesY[y] + heigth);
+                            Console.Write("     ");
+                            heigth++;
+                        }
+                }
+                
+            }
+
+            Console.ForegroundColor = ConsoleColor.Black;
+            /*for (int i = 0; i < 4; i++)
+                for (int j = 0; j < 4; j++)
+                {
+                    int heigth = 0;
+                    foreach(string lineP in lines)
+                    {
+                        Console.SetCursorPosition(piecesX[i], piecesY[j] + heigth);
+                        Console.Write(lineP);
+                        heigth++;
+                    }
+                }
+
+
+                    for (int i = 0; i < pieces_jouables.GetLength(0); i++)
             {
                 if (i == current)
                 {
                     Console.BackgroundColor = ConsoleColor.DarkRed;
                     Console.ForegroundColor = ConsoleColor.White;
                 }
-                Console.Write(" | " + pieces_jouables[i][0] + " | ");
+                int x = piecesX[i % piecesX.Length];
+                
+                int cpt = 0;
+                int y = piecesY[0];
+
+
+                foreach (string lineP in lines)
+                {
+                    
+                    Console.SetCursorPosition(x, y+(cpt%lines.Length));
+                    Console.Write(lineP);
+                    cpt++;
+                    if(cpt%lines.Length == 0) y = piecesY[cpt % piecesY.Length];
+                }*/
                 Console.BackgroundColor = ConsoleColor.White;
                 Console.ForegroundColor = ConsoleColor.Black;
-            }
+            
         }
 
         public static void ShowComputerSelection(int[][] pieces_jouables, int current)  // Selection de l'ordinateur

@@ -98,7 +98,7 @@ namespace Quarto_02
             for (int i = 1; i < choice.Length; i++) piece += Convert.ToString(choice[i]);
             board[x, y] = piece;
         }
-
+        
         public static void Pos2Coord(out int x, out int y, int pos, string[,] board)
         {
             x = pos / board.GetLength(0);
