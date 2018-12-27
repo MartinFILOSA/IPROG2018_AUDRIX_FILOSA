@@ -25,10 +25,11 @@ namespace Quarto_02
             int level = 0; //Devra prendre la valeur aassocié dans les paramètre de jeu.
             Utilisables.InitGame(gameParams, pieces_jouables, board/*, file*/);
             int turn = 0;
+
+            //=======================================Boucle_d'affichage_du_menu=================================
             bool menu = true;
-            bool newgame = true;
             int currentMenuButton = 1;
-            while (menu)                                                                   //Menu de jeu règles, jouer
+            while (menu)                                                                  
             {
                 IHM.DisplayMenu(currentMenuButton);
                 System.ConsoleKeyInfo Button = Console.ReadKey();
@@ -43,10 +44,11 @@ namespace Quarto_02
 
                 if (currentMenuButton < 0) currentMenuButton = Math.Abs(currentMenuButton+3)%3;
             }
-
+            //===================================================================================================
             
             int currentLSButton = 1;
-            while(newgame)                                                              // Menu de jeu, charger, nouvelle partie
+            bool newgame = true;
+            while (newgame)                                                              // Menu de jeu, charger, nouvelle partie
             {
                 IHM.DisplayLoadScreen(currentLSButton);
                 System.ConsoleKeyInfo Button = Console.ReadKey();
@@ -55,7 +57,7 @@ namespace Quarto_02
                 else if (Button.Key == ConsoleKey.Enter)
                 {
                     if (currentLSButton == 2) Environment.Exit(0);
-                    else if  (currentLSButton == 1) newgame = false; 
+                    else if (currentLSButton == 1) newgame = false;
                     else { Console.Clear(); IHM.DisplayRulesScreen(); }
                 }
 

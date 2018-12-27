@@ -72,24 +72,6 @@ namespace Quarto_02
             return newPieces;
         }
 
-       /* public static string Win(int turn, string[,] board, int choice, int[][] pieces_jouees)
-        {
-            string modalite = "";
-            if (turn > pieces_jouees.GetLength(0)) modalite =  "égalité";
-            return modalite;
-        }
-
-        /*public static Piece CreatePiece()
-        {
-            Piece piece = new Piece();
-            piece.param = new int[] { 1, 1, 1, 1 };
-            piece.hauteur = piece.param[0];
-            piece.couleur = piece.param[1];
-            piece.forme = piece.param[2];
-            piece.plein = piece.param[3];
-            return Piece;
-        }*/
-
         public static void Add2Board(int[] choice, string[,] board, int pos)
         {
             int x, y;
@@ -232,6 +214,7 @@ namespace Quarto_02
             //...
             //throw new NotImplementedException();
         }
+
         public static void PlayVictoryMusic()
         {
             Console.Beep(262, 800); //do

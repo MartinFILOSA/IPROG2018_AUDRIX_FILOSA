@@ -62,7 +62,6 @@ namespace Quarto_02
             return lines;
         }
 
-
         public static void DisplayCenteredText(string text, int height)             // Fonction qui permet de centrer le texte
         {
             int width = Console.WindowWidth;
@@ -392,8 +391,6 @@ namespace Quarto_02
 
         public static void DisplayGameScreen(string[,] board, int current)         // Affichage de l'interface de jeu
         {
-            Console.Clear();
-
             Console.Clear();
             Console.BackgroundColor = ConsoleColor.Black;
 
