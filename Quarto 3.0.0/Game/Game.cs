@@ -76,8 +76,8 @@ namespace Quarto
             Utilisables.InitialiserPartie(nomFichier, ref plateau, ref piecesJouables);
 
             IHM.InitialiserEcranJeux();
-            int caseCourante = 0;
-            int pieceCourante = 0;
+            int caseCourante = -1;
+            int pieceCourante = -1;
             IHM.AfficherEcranJeux(plateau, piecesJouables, caseCourante, pieceCourante);
             int tour = 0;
             bool gagner = false;
@@ -87,7 +87,8 @@ namespace Quarto
                 // Tour de l'ordinateur
                 if(tour % 2 == 0)
                 {
-
+                    int idPiece = Utilisables.ChoisirPiece(piecesJouables);
+                    IHM.AfficherEcranJeux(piecesJouables);
                 }
                 // Tour du joueur
                 else

@@ -442,41 +442,49 @@ namespace Quarto
         }
 
         // Fonction permettant l'affichage du plateu des pieces ou des deux
-        internal static void AfficherEcranJeux(int[,] plateau, int caseCourante)
+        internal static void AfficherEcranJeux(int[,] plateau, int caseCourante = -1)
         {
             AfficherPlateau(plateau, caseCourante);
         }
 
-        internal static void AfficherEcranJeux(int[] piecesJouables, int pieceCourante)
+        internal static void AfficherEcranJeux(int[] piecesJouables, int pieceCourante = -1)
         {
             AfficherPiecesJouables(piecesJouables, pieceCourante);
         }
 
-        internal static void AfficherEcranJeux(int[,] plateau, int[] piecesJouables, int caseCourante, int pieceCourante)
+        internal static void AfficherEcranJeux(int[,] plateau, int[] piecesJouables, int caseCourante = -1, int pieceCourante = -1)
         {
             AfficherPiecesJouables(piecesJouables, pieceCourante);
             AfficherPlateau(plateau, caseCourante);
         }
 
         // Fonction permettant d'afficher les pieces encore disponibles
-        private static void AfficherPiecesJouables(int[] piecesJouables, int pieceCourante)
+        private static void AfficherPiecesJouables(int[] piecesJouables, int pieceCourante = -1)
         {
             // Les valeurs permettant de placer les emplacements de pieces à l'écran
             int[] piecesX = new int[] { 92, 104, 116, 128 };
             int[] piecesY = new int[] { 18, 28, 38, 48 };
             
-            for (int i =0; i < piecesJouables.Length; i++)
+            for (int i = 0; i < piecesJouables.Length; i++)
             {
                 bool estCourante = false;
                 if (i == pieceCourante) estCourante = true;
                 int x, y;
-                Utilisables.Pos2Coord(out y, out x, piecesJouables[i]);
-                DessinerPiece(piecesX[x], piecesY[y], piecesJouables[i], estCourante);
+                if (piecesJouables[i] >= 0)
+                {
+                    Utilisables.Pos2Coord(out y, out x, piecesJouables[i]);
+                    DessinerPiece(piecesX[x], piecesY[y], piecesJouables[i], estCourante);
+                }
+                else
+                {
+                    Utilisables.Pos2Coord(out y, out x, i);
+                    EffacerPiece(piecesX[x], piecesY[y], estCourante);
+                }
             }
         }
 
         // Fonction permettant d'afficher le plateau de jeu
-        private static void AfficherPlateau(int[,] plateau, int courant)
+        private static void AfficherPlateau(int[,] plateau, int courant = -1)
         {
             int[] casesX = new int[] { 10, 24, 38, 52};
             int[] casesY = new int[] { 5, 13, 21, 29};
@@ -538,8 +546,20 @@ namespace Quarto
             }
             Console.ForegroundColor = ConsoleColor.Black;
             if (estCourante) AfficherBoiteSelection(x, y);
+            else EffacerSelection(x, y);
         }
 
+        private static void EffacerPiece(int x, int y, bool estCourante = false)
+        {
+            for (int i = 0; i < 5; i++)
+            {
+                Console.SetCursorPosition(x, y - i);
+                Console.Write("       ");
+            }
+            if (estCourante) AfficherBoiteSelection(x, y);
+            else EffacerSelection(x, y);
+        }
+        
         // Fonction permettant d'afficher la boite de selection
         private static void AfficherBoiteSelection(int x, int y)
         {
@@ -564,6 +584,22 @@ namespace Quarto
                 Console.Write(verticalLine);
             }
 
+        }
+
+        // Fonction permettant d'effacer la boite de selection
+        private static void EffacerSelection(int x, int y)
+        {
+            Console.SetCursorPosition(x - 2, y + 1);
+            Console.Write("         ");
+            Console.SetCursorPosition(x - 2, y - 5);
+            Console.Write("         ");
+            for (int i = y - 4; i <= y; i++)
+            {
+                Console.SetCursorPosition(x - 2, i);
+                Console.Write(" ");
+                Console.SetCursorPosition(x + 6, i);
+                Console.Write(" ");
+            }
         }
 
         // Fonction permettant de dessiner une ligne horizontale

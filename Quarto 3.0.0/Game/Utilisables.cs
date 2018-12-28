@@ -36,5 +36,40 @@ namespace Quarto
             int position = x * 4 + y;
             return position;
         }
+
+        internal static int ChoisirPiece(int[] piecesJouables)
+        {
+            bool choix = false;
+            int colonneCourante = 0;
+            int ligneCourante = 0;
+            int indice = -1;
+            int pieceCourante = 0;
+            while (indice == -1)
+            {
+                indice = piecesJouables[pieceCourante];
+                if(piecesJouables[pieceCourante] < 0) pieceCourante++;
+            }
+            IHM.AfficherEcranJeux(piecesJouables, pieceCourante);
+            while (!choix)
+            {
+                System.ConsoleKeyInfo mouvement = Console.ReadKey();
+                if (mouvement.Key == ConsoleKey.LeftArrow) colonneCourante = (colonneCourante -= 1) % 4;
+                else if (mouvement.Key == ConsoleKey.RightArrow) colonneCourante = (colonneCourante += 1) % 4;
+                else if (mouvement.Key == ConsoleKey.UpArrow) ligneCourante = (ligneCourante -= 1) % 4;
+                else if (mouvement.Key == ConsoleKey.DownArrow) ligneCourante = (ligneCourante += 1) % 4;
+                else if (mouvement.Key == ConsoleKey.Enter && piecesJouables[pieceCourante] != -1)
+                {
+                    piecesJouables[pieceCourante] = -1;
+                    choix = true;
+                }
+
+                if (colonneCourante < 0) colonneCourante = Math.Abs(colonneCourante + 4) % 4;
+                if (ligneCourante < 0) ligneCourante = Math.Abs(ligneCourante + 4) % 4;
+                pieceCourante = Coor2Pos(ligneCourante, colonneCourante);
+                //if(piecesJouables[pieceCourante] >= 0) 
+                IHM.AfficherEcranJeux(piecesJouables, pieceCourante);
+            }
+            return pieceCourante;
+        }
     }
 }
