@@ -71,5 +71,44 @@ namespace Quarto
             }
             return pieceCourante;
         }
+
+        internal static void PoserPiece(int idPiece, int[,] plateau)
+        {
+            bool choix = false;
+            int colonneCourante = 0;
+            int ligneCourante = 0;
+            int caseCourante = 0;
+            int indice = 0;
+            Utilisables.Pos2Coord(out int x, out int y, indice);
+
+
+            while (plateau[x,y] != -1)
+            {
+                indice++;
+                Utilisables.Pos2Coord(out x, out y, indice);
+                if (plateau[x, y] == -1) caseCourante = indice;
+            }
+
+            IHM.AfficherEcranJeux(plateau, caseCourante);
+            while (!choix)
+            {
+                System.ConsoleKeyInfo mouvement = Console.ReadKey();
+                if (mouvement.Key == ConsoleKey.LeftArrow) colonneCourante = (colonneCourante -= 1) % 4;
+                else if (mouvement.Key == ConsoleKey.RightArrow) colonneCourante = (colonneCourante += 1) % 4;
+                else if (mouvement.Key == ConsoleKey.UpArrow) ligneCourante = (ligneCourante -= 1) % 4;
+                else if (mouvement.Key == ConsoleKey.DownArrow) ligneCourante = (ligneCourante += 1) % 4;
+                else if (mouvement.Key == ConsoleKey.Enter && plateau[ligneCourante,colonneCourante] == -1)
+                {
+                    plateau[ligneCourante, colonneCourante] = idPiece;
+                    choix = true;
+                    IHM.EffacerChoixOrdi();
+                }
+
+                if (colonneCourante < 0) colonneCourante = Math.Abs(colonneCourante + 4) % 4;
+                if (ligneCourante < 0) ligneCourante = Math.Abs(ligneCourante + 4) % 4;
+                caseCourante = Coor2Pos(ligneCourante, colonneCourante);
+                IHM.AfficherEcranJeux(plateau, caseCourante);
+            }
+        }
     }
 }

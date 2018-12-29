@@ -495,16 +495,16 @@ namespace Quarto
                     bool estCourante = false;
                     if (Utilisables.Coor2Pos(j, i) == courant) estCourante = true;
                     if (plateau[j, i] == -1) DessinerCase(casesX[i], casesY[j], estCourante);
-                    else DessinerCase(casesX[i], casesY[j], estCourante, plateau[j, i]);
+                    else DessinerCase(casesX[i], casesY[j], plateau[j, i], estCourante);
                 }
         }
 
         // Fonction permettant d'afficher une case du tableau
-        private static void DessinerCase(int x, int y, bool estCourante)
+        private static void DessinerCase(int x, int y, bool estCourante = false)
         {
             ConsoleColor vide = ConsoleColor.White;
             ConsoleColor caseCourante = ConsoleColor.DarkRed;
-            string caseVide = "             ";
+            string caseVide = "            ";
             if (estCourante) Console.BackgroundColor = caseCourante;
             else Console.BackgroundColor = vide;
             for(int i = y; i < y + 7; i++)
@@ -515,11 +515,11 @@ namespace Quarto
 
         }
 
-        private static void DessinerCase(int x, int y, bool estCourante, int pieceId)
+        private static void DessinerCase(int x, int y, int pieceId, bool estCourante = false)
         {
             ConsoleColor vide = ConsoleColor.White;
             ConsoleColor caseCourante = ConsoleColor.DarkGray;
-            string caseVide = "             ";
+            string caseVide = "            ";
             if (estCourante) Console.BackgroundColor = caseCourante;
             else Console.BackgroundColor = vide;
             for (int i = y; i < y + 7; i++)
@@ -707,6 +707,45 @@ namespace Quarto
         {
 
         }
-        
+
+        // Fonction permettant de montrer ou l'ordinateur pose sa piece
+        internal static void AfficherCaseOrdi(int y, int x)
+        {
+            int[] casesX = new int[] { 10, 24, 38, 52 };
+            int[] casesY = new int[] { 5, 13, 21, 29 };
+            x = casesX[x];
+            y = casesY[y];
+            string caseVide = "            ";
+            for(int j = 0; j < 2; j++)
+            {
+                Console.BackgroundColor = ConsoleColor.DarkYellow;
+                for (int i = y; i < y + 7; i++)
+                {
+                    Console.SetCursorPosition(x, i);
+                    Console.Write(caseVide);
+                }
+                System.Threading.Thread.Sleep(200);
+                Console.BackgroundColor = ConsoleColor.White;
+                for (int i = y; i < y + 7; i++)
+                {
+                    Console.SetCursorPosition(x, i);
+                    Console.Write(caseVide);
+                }
+                System.Threading.Thread.Sleep(200);
+            }
+        }
+
+        // Fonction permettant de montrer la pièce choisie par l'ordinateur
+        internal static void AfficherChoixOrdi(int pieceChoisie)
+        {
+            DessinerCase(30, 45);
+            DessinerPiece(34, 50, pieceChoisie);
+        }
+
+        internal static void EffacerChoixOrdi()
+        {
+            EffacerPiece(34, 50);
+        }
+
     }
 }

@@ -89,11 +89,16 @@ namespace Quarto
                 {
                     int idPiece = Utilisables.ChoisirPiece(piecesJouables);
                     IHM.AfficherEcranJeux(piecesJouables);
+                    IA.PoserPiece(idPiece, plateau);
+                    IHM.AfficherEcranJeux(plateau);
                 }
                 // Tour du joueur
                 else
                 {
-
+                    int idPiece = IA.ChoisirPiece(piecesJouables);
+                    IHM.AfficherEcranJeux(piecesJouables);
+                    Utilisables.PoserPiece(idPiece, plateau);
+                    IHM.AfficherEcranJeux(plateau);
                 }
                 tour++;
             }
