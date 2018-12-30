@@ -88,7 +88,7 @@ namespace Quarto
                 Utilisables.Pos2Coord(out x, out y, indice);
                 if (plateau[x, y] == -1) caseCourante = indice;
             }
-
+            Utilisables.Pos2Coord(out ligneCourante, out colonneCourante, caseCourante);
             IHM.AfficherEcranJeux(plateau, caseCourante);
             while (!choix)
             {
@@ -109,6 +109,13 @@ namespace Quarto
                 caseCourante = Coor2Pos(ligneCourante, colonneCourante);
                 IHM.AfficherEcranJeux(plateau, caseCourante);
             }
+        }
+
+        internal static void JouerMusiqueIntro()
+        {
+            System.Media.SoundPlayer player = new System.Media.SoundPlayer();
+            player.SoundLocation = "../../Musiques\\ETFC.wav";
+            player.Play();  
         }
     }
 }

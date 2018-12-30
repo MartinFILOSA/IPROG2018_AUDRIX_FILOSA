@@ -201,7 +201,7 @@ namespace Quarto
 
             Console.ForegroundColor = ConsoleColor.Black;
             Console.OutputEncoding = System.Text.Encoding.UTF8; // vérifier ??
-
+            Console.Clear();
             //Quelques symboles et caractères utiles pour l'affichage du menu
             char block = '\u2588';
             char horizontalLine = '\u2550';
@@ -326,38 +326,7 @@ namespace Quarto
             Console.Clear();
             if (noms.Length > 0)
             {
-                // caractères utiles à l'affichage
-                char horizontalLine = '\u2550';
-                char topLeftCorner = '\u2554';
-                char topRightCorner = '\u2557';
-                char bottomLeftCorner = '\u255A';
-                char bottomRightCorner = '\u255D';
-                char verticalLine = '\u2551';
-
-                for(int i = 1; i < Console.WindowWidth; i++)
-                {
-                    Console.SetCursorPosition(i, 0);
-                    Console.Write(horizontalLine);
-                    Console.SetCursorPosition(i, Console.WindowHeight-1);
-                    Console.Write(horizontalLine);
-                }
-                for (int i = 1; i < Console.WindowHeight-1; i++)
-                {
-                    Console.SetCursorPosition(0, i);
-                    Console.Write(verticalLine);
-                    Console.SetCursorPosition(Console.WindowWidth-1, i);
-                    Console.Write(verticalLine);
-                }
-
-                Console.SetCursorPosition(0, 0);
-                Console.Write(topLeftCorner);
-                Console.SetCursorPosition(Console.WindowWidth-1, 0);
-                Console.Write(topRightCorner);
-                Console.SetCursorPosition(0, Console.WindowHeight-1);
-                Console.Write(bottomLeftCorner);
-                Console.SetCursorPosition(Console.WindowWidth-1, Console.WindowHeight-1);
-                Console.Write(bottomRightCorner);
-                Console.SetCursorPosition(0, 0);
+                AfficherCadre();
 
                 ConsoleColor[] noir = new ConsoleColor[] { ConsoleColor.Black };
                 AfficherTextRegulier(new string[] { "BIENVENU DANS L'INTERFACE DE CHARGEMENT DE QUARTO" }, noir, 3);
@@ -504,7 +473,7 @@ namespace Quarto
         {
             ConsoleColor vide = ConsoleColor.White;
             ConsoleColor caseCourante = ConsoleColor.DarkRed;
-            string caseVide = "            ";
+            string caseVide = "             ";
             if (estCourante) Console.BackgroundColor = caseCourante;
             else Console.BackgroundColor = vide;
             for(int i = y; i < y + 7; i++)
@@ -519,7 +488,7 @@ namespace Quarto
         {
             ConsoleColor vide = ConsoleColor.White;
             ConsoleColor caseCourante = ConsoleColor.DarkGray;
-            string caseVide = "            ";
+            string caseVide = "             ";
             if (estCourante) Console.BackgroundColor = caseCourante;
             else Console.BackgroundColor = vide;
             for (int i = y; i < y + 7; i++)
@@ -705,7 +674,59 @@ namespace Quarto
         // Fonction permettant d'afficher les règles du jeu
         internal static void AfficherRegles()
         {
+            bool exit = false;
+            while (!exit)
+            {
+                Console.Clear();
+                AfficherCadre();
+                DessinerLigneV(0, Console.WindowHeight - 1, Console.WindowWidth / 2);
+                Console.ForegroundColor = ConsoleColor.DarkGreen;
+                string titre = "Voici le fonctionnement général du Quarto:";
+                Console.SetCursorPosition((Console.WindowWidth / 2 - titre.Length) / 2, 3);
+                Console.Write(titre);
+                Console.ForegroundColor = ConsoleColor.DarkGray;
+                string[] texts = new string[]
+                {
+                    "Le principe du jeu est simple",
+                    "Votre objectif est d'aligner entre elles ",
+                    "quatre pièce ayant une caractéristique commune",
+                    "tout en sachant que les pièces ont quatre caractéristiques: ",
+                };
+                int hauteur = 5;
+                foreach(string text in texts)
+                {
+                    Console.SetCursorPosition((Console.WindowWidth / 2 - text.Length) / 2, hauteur);
+                    Console.Write(text);
+                    hauteur++;
+                }
+                Console.ForegroundColor = ConsoleColor.DarkCyan;
+                string carac = "Ronde ou carrée - Bleue ou rouge - Pleine ou creuse - Petite ou grande";
+                Console.SetCursorPosition((Console.WindowWidth / 2 - carac.Length) / 2, 10);
+                Console.Write(carac);
+                Console.ForegroundColor = ConsoleColor.DarkGray;
+                texts = new string[] 
+                {
+                    "mais attention, c'est votre adversaire qui choisi",
+                    " la pièce que vous poser sur le plateau",
+                    " et vous la sienne...           Choississez bien !"
+                };
+                hauteur = 12;
+                foreach (string text in texts)
+                {
+                    Console.SetCursorPosition((Console.WindowWidth / 2 - text.Length) / 2, hauteur);
+                    Console.Write(text);
+                    hauteur++;
+                }
+                Console.ForegroundColor = ConsoleColor.DarkRed;
+                string quitter = "Pour quitter les règles pressez esc";
+                Console.SetCursorPosition(Console.WindowWidth - (quitter.Length + 2), 1);
+                Console.Write(quitter);
+                Console.ForegroundColor = ConsoleColor.Black;
 
+                System.ConsoleKeyInfo Bouton = Console.ReadKey();
+                if (Bouton.Key == ConsoleKey.Escape) exit = true;
+
+            }
         }
 
         // Fonction permettant de montrer ou l'ordinateur pose sa piece
@@ -715,7 +736,7 @@ namespace Quarto
             int[] casesY = new int[] { 5, 13, 21, 29 };
             x = casesX[x];
             y = casesY[y];
-            string caseVide = "            ";
+            string caseVide = "             ";
             for(int j = 0; j < 2; j++)
             {
                 Console.BackgroundColor = ConsoleColor.DarkYellow;
@@ -747,5 +768,41 @@ namespace Quarto
             EffacerPiece(34, 50);
         }
 
+        private static void AfficherCadre()
+        {
+            // caractères utiles à l'affichage
+            char horizontalLine = '\u2550';
+            char topLeftCorner = '\u2554';
+            char topRightCorner = '\u2557';
+            char bottomLeftCorner = '\u255A';
+            char bottomRightCorner = '\u255D';
+            char verticalLine = '\u2551';
+
+            for (int i = 1; i < Console.WindowWidth; i++)
+            {
+                Console.SetCursorPosition(i, 0);
+                Console.Write(horizontalLine);
+                Console.SetCursorPosition(i, Console.WindowHeight - 1);
+                Console.Write(horizontalLine);
+            }
+            for (int i = 1; i < Console.WindowHeight - 1; i++)
+            {
+                Console.SetCursorPosition(0, i);
+                Console.Write(verticalLine);
+                Console.SetCursorPosition(Console.WindowWidth - 1, i);
+                Console.Write(verticalLine);
+            }
+
+            Console.SetCursorPosition(0, 0);
+            Console.Write(topLeftCorner);
+            Console.SetCursorPosition(Console.WindowWidth - 1, 0);
+            Console.Write(topRightCorner);
+            Console.SetCursorPosition(0, Console.WindowHeight - 1);
+            Console.Write(bottomLeftCorner);
+            Console.SetCursorPosition(Console.WindowWidth - 1, Console.WindowHeight - 1);
+            Console.Write(bottomRightCorner);
+            Console.SetCursorPosition(0, 0);
+
+        }
     }
 }

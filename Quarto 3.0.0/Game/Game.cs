@@ -10,6 +10,7 @@ namespace Quarto
     {
         public static void Main(string[] args)
         {
+            //Utilisables.JouerMusiqueIntro();
             int[,] plateau = new int[4, 4]; // variable représentant l'état du plateu de jeux pendant la partie
             int[] piecesJouables = new int[16]; // variable contenant l'identifiant des pieces encore disponibles
             //int[] piecesJouees = new int[16]; // variable contenant l'identifiant des pieces déjà placées sur le plateau
