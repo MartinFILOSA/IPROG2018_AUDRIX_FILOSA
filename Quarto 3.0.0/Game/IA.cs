@@ -10,7 +10,7 @@ namespace Quarto
     {
         static Random rn = new Random();
 
-        internal static void PoserPiece(int idPiece, int[,] plateau)
+        internal static bool PoserPiece(int idPiece, int[,] plateau)
         {
             int caseChoisie = rn.Next(0, 16);
             Utilisables.Pos2Coord(out int x, out int y, caseChoisie);
@@ -21,6 +21,7 @@ namespace Quarto
             }
             plateau[x, y] = idPiece;
             IHM.AfficherCaseOrdi(x, y);
+            return false;
         }
 
         internal static int ChoisirPiece(int[] piecesJouables)

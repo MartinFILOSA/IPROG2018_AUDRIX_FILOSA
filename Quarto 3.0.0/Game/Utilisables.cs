@@ -37,7 +37,7 @@ namespace Quarto
             return position;
         }
 
-        internal static int ChoisirPiece(int[] piecesJouables)
+        internal static int ChoisirPiece(int[] piecesJouables, bool sauvegarde, int[,] plateau)
         {
             bool choix = false;
             int colonneCourante = 0;
@@ -52,6 +52,7 @@ namespace Quarto
             IHM.AfficherEcranJeux(piecesJouables, pieceCourante);
             while (!choix)
             {
+                bool pause = false;
                 System.ConsoleKeyInfo mouvement = Console.ReadKey();
                 if (mouvement.Key == ConsoleKey.LeftArrow) colonneCourante = (colonneCourante -= 1) % 4;
                 else if (mouvement.Key == ConsoleKey.RightArrow) colonneCourante = (colonneCourante += 1) % 4;
@@ -61,20 +62,30 @@ namespace Quarto
                 {
                     piecesJouables[pieceCourante] = -1;
                     choix = true;
+                    sauvegarde = false;
                 }
+                else if (mouvement.Key == ConsoleKey.P)
+                {
+                    sauvegarde = IHM.AfficherMenuPause(sauvegarde);
+                    pause = true;
+                }
+                else if (mouvement.Key == ConsoleKey.Escape) Environment.Exit(0);
 
                 if (colonneCourante < 0) colonneCourante = Math.Abs(colonneCourante + 4) % 4;
                 if (ligneCourante < 0) ligneCourante = Math.Abs(ligneCourante + 4) % 4;
                 pieceCourante = Coor2Pos(ligneCourante, colonneCourante);
                 //if(piecesJouables[pieceCourante] >= 0) 
-                IHM.AfficherEcranJeux(piecesJouables, pieceCourante);
+                if (pause) IHM.AfficherEcranJeux(plateau, piecesJouables, -1, pieceCourante);
+                else IHM.AfficherEcranJeux(piecesJouables, pieceCourante);
+                
             }
             return pieceCourante;
         }
 
-        internal static void PoserPiece(int idPiece, int[,] plateau)
+        internal static bool PoserPiece(int idPiece, int[,] plateau, bool sauvegarde, int[] piecesJouables)
         {
             bool choix = false;
+            
             int colonneCourante = 0;
             int ligneCourante = 0;
             int caseCourante = 0;
@@ -92,23 +103,37 @@ namespace Quarto
             IHM.AfficherEcranJeux(plateau, caseCourante);
             while (!choix)
             {
+                bool pause = false;
                 System.ConsoleKeyInfo mouvement = Console.ReadKey();
                 if (mouvement.Key == ConsoleKey.LeftArrow) colonneCourante = (colonneCourante -= 1) % 4;
                 else if (mouvement.Key == ConsoleKey.RightArrow) colonneCourante = (colonneCourante += 1) % 4;
                 else if (mouvement.Key == ConsoleKey.UpArrow) ligneCourante = (ligneCourante -= 1) % 4;
                 else if (mouvement.Key == ConsoleKey.DownArrow) ligneCourante = (ligneCourante += 1) % 4;
-                else if (mouvement.Key == ConsoleKey.Enter && plateau[ligneCourante,colonneCourante] == -1)
+                else if (mouvement.Key == ConsoleKey.Enter && plateau[ligneCourante, colonneCourante] == -1)
                 {
                     plateau[ligneCourante, colonneCourante] = idPiece;
                     choix = true;
+                    sauvegarde = false;
                     IHM.EffacerChoixOrdi();
                 }
+                else if (mouvement.Key == ConsoleKey.P)
+                {
+                    sauvegarde = IHM.AfficherMenuPause(sauvegarde);
+                    pause = true;
+                }
+                else if (mouvement.Key == ConsoleKey.Escape) Environment.Exit(0);
 
                 if (colonneCourante < 0) colonneCourante = Math.Abs(colonneCourante + 4) % 4;
                 if (ligneCourante < 0) ligneCourante = Math.Abs(ligneCourante + 4) % 4;
                 caseCourante = Coor2Pos(ligneCourante, colonneCourante);
-                IHM.AfficherEcranJeux(plateau, caseCourante);
+                if (pause)
+                {
+                    IHM.AfficherEcranJeux(plateau, piecesJouables, caseCourante);
+                    IHM.AfficherChoixOrdi(idPiece);
+                }
+                else IHM.AfficherEcranJeux(plateau, caseCourante);
             }
+            return sauvegarde;
         }
 
         internal static void JouerMusiqueIntro()

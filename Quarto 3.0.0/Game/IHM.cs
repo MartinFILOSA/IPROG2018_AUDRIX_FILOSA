@@ -195,6 +195,45 @@ namespace Quarto
             Console.ForegroundColor = ConsoleColor.Black;
         }
 
+        internal static bool AfficherMenuPause(bool sauvegarde)
+        {
+            
+            bool pause = true;
+            int courant = 1;
+            while (pause)
+            {
+                Console.Clear();
+                Console.Write(sauvegarde);
+                AfficherQuarto();
+                AfficherBouton(new string[] { "Reprendre", "Sauvegarder", "Quitter" }, courant, 25);
+                System.ConsoleKeyInfo Bouton = Console.ReadKey();
+                // Définition des touches permettants de parcourir les boutons du menu
+                if (Bouton.Key == ConsoleKey.LeftArrow) courant = (courant -= 1) % 3;
+                else if (Bouton.Key == ConsoleKey.RightArrow) courant = (courant += 1) % 3;
+
+                // Action à réaliser quand un bouton est selectionné
+                else if (Bouton.Key == ConsoleKey.Enter)
+                {
+                    if (courant == 2 && sauvegarde == true) Environment.Exit(0); // Bouton Quitter
+                    else if (courant == 1)
+                    {
+                        InitialiserEcranJeux();
+                        sauvegarde = true;
+                        pause = false;
+                    }
+                    else
+                    {
+                        InitialiserEcranJeux();
+                        pause = false;
+                    }  // Bouton Reprendre
+                }
+                if (courant < 0) courant = Math.Abs(courant + 3) % 3; // Permet de réaliser le "modulo négatif"
+
+                
+            }
+            return sauvegarde;
+        }
+
         // Fonction permettant d'afficher l'écran de menu
         internal static void AfficherMenu(int courant)
         {

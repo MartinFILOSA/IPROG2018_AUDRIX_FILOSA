@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Quarto
 {
@@ -85,24 +81,26 @@ namespace Quarto
             int tour = 0;
             bool gagner = false;
             //============================================================================================================
-            //                                       Départ de la Boucle de jeux
+            //                           Départ de la Boucle de jeux pour un Player vs Ordi
             //============================================================================================================
+            bool sauvegarde = false;
             while (!gagner)
             {
                 // Tour de l'ordinateur
-                if(tour % 2 == 0)
+                if (tour % 2 == 0)
                 {
-                    int idPiece = Utilisables.ChoisirPiece(piecesJouables);
+                    int idPiece = Utilisables.ChoisirPiece(piecesJouables, sauvegarde, plateau);
                     IHM.AfficherEcranJeux(piecesJouables);
-                    IA.PoserPiece(idPiece, plateau);
+                    sauvegarde = IA.PoserPiece(idPiece, plateau);
                     IHM.AfficherEcranJeux(plateau);
                 }
                 // Tour du joueur
                 else
                 {
                     int idPiece = IA.ChoisirPiece(piecesJouables);
+                    sauvegarde = false;
                     IHM.AfficherEcranJeux(piecesJouables);
-                    Utilisables.PoserPiece(idPiece, plateau);
+                    sauvegarde = Utilisables.PoserPiece(idPiece, plateau, sauvegarde, piecesJouables);
                     IHM.AfficherEcranJeux(plateau);
                 }
                 tour++;
