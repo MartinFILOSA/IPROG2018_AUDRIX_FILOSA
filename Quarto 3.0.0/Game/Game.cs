@@ -68,7 +68,9 @@ namespace Quarto
             }
             //============================================================================================================
             string nomFichier = "../../Sauvegardes\\NouvellePartie.txt";
-            
+            //============================================================================================================
+            //                                  Création de la partie chargée ou non
+            //============================================================================================================
             if (charger == true) // Si on charge un sauvegarde
             {
                 nomFichier = IHM.AfficherPageChargement();         
@@ -82,7 +84,9 @@ namespace Quarto
             IHM.AfficherEcranJeux(plateau, piecesJouables, caseCourante, pieceCourante);
             int tour = 0;
             bool gagner = false;
-            
+            //============================================================================================================
+            //                                       Départ de la Boucle de jeux
+            //============================================================================================================
             while (!gagner)
             {
                 // Tour de l'ordinateur
@@ -105,8 +109,6 @@ namespace Quarto
             }
 
             Console.Read();
-
-
 
 
 

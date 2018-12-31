@@ -13,7 +13,7 @@ namespace Quarto
         // Fonction permettant d'initialiser des paramètres graphiques globaux pour la suite du jeu
         internal static void InitialiserGraphiques()
         {
-            Console.SetWindowSize(150, 60); // Taille de la console 150 x 60 pixels
+            Console.SetWindowSize(150, 60); // Taille de la console 150 x 60 pixels/ caractères
             Console.BackgroundColor = ConsoleColor.White; // Le fond de la console est blanc
             Console.Clear();
         }
@@ -674,6 +674,7 @@ namespace Quarto
         // Fonction permettant d'afficher les règles du jeu
         internal static void AfficherRegles()
         {
+            char shadow = '\u2593';
             bool exit = false;
             while (!exit)
             {
@@ -720,13 +721,247 @@ namespace Quarto
                 Console.ForegroundColor = ConsoleColor.DarkRed;
                 string quitter = "Pour quitter les règles pressez esc";
                 Console.SetCursorPosition(Console.WindowWidth - (quitter.Length + 2), 1);
-                Console.Write(quitter);
+                Console.Write(quitter); 
                 Console.ForegroundColor = ConsoleColor.Black;
+                Console.SetCursorPosition(83, 5);
+                Console.Write("Description de l'interface: ");
+                // Dessin de l'écran de jeux
+                for(int i = 0; i < 21; i++)
+                {
+                    Console.BackgroundColor = ConsoleColor.Black;
+                    Console.SetCursorPosition(Console.WindowWidth / 2 + 5, 20 + i);
+                    Console.Write(new string(' ', 31));
+                    Console.SetCursorPosition(140, 20 + i);
+                    Console.Write(' ');
+                    Console.SetCursorPosition(141, 21 + i);
+                    Console.BackgroundColor = ConsoleColor.White;
+                    Console.Write(shadow);
+                }
+                // Fermeture du cadre à droite
+                Console.BackgroundColor = ConsoleColor.Black;
+                Console.SetCursorPosition(110,20);
+                Console.Write(new string(' ', 30));
+                Console.SetCursorPosition(110,40);
+                Console.Write(new string(' ', 31));
+                // Ombre de l'interface
+                Console.BackgroundColor = ConsoleColor.White;
+                Console.SetCursorPosition(81, 41);
+                Console.Write(new string(shadow, 61));
+                // Barre horizontale
+                Console.SetCursorPosition(111, 27);
+                Console.Write(new string('\u2500', 29));
+                // Création des case du tableau
+                int[] posX = new int[] {86,91,96,101};
+                int[] posY = new int[] {22,25,28,31};
+                for (int i = 0; i < 4; i ++)
+                    for(int j = 0; j < 4; j++)
+                    {
+                        Console.SetCursorPosition(posX[i], posY[j]);
+                        Console.Write("    ");
+                        Console.SetCursorPosition(posX[i], posY[j]+1);
+                        Console.Write("    ");
+                    }
+                // Création de la pièce ordi
+                Console.SetCursorPosition(93,36);
+                Console.Write("    ");
+                Console.SetCursorPosition(93,37);
+                Console.Write("    ");
+                // Création des pièces
+                int[] posPieceX = new int[] { 116, 121, 126, 131 };
+                int[] posPieceY = new int[] { 28, 31, 34, 37 };
+                for (int i = 0; i < 4; i++)
+                    for (int j = 0; j < 4; j++)
+                    {
+                        if (i % 2 == 0) Console.BackgroundColor = ConsoleColor.DarkBlue;
+                        else Console.BackgroundColor = ConsoleColor.DarkRed;
+                        Console.SetCursorPosition(posPieceX[i], posPieceY[j]);
+                        Console.Write("    ");
+                        Console.SetCursorPosition(posPieceX[i], posPieceY[j] + 1);
+                        Console.Write("    ");
+                    }
+                // numérotation des zones
+                // ZONE 1
+                Console.BackgroundColor = ConsoleColor.White;
+                Console.ForegroundColor = ConsoleColor.DarkRed;
+                string[] bloc1 = new string[]
+                {
+                    "Zone 1: Dans cette zone",
+                    "située en haut à gauche",
+                    "de l'écran s'affiche le",
+                    "plateau de jeu dans lequel",
+                    "vous pourez déposer vos pièces."
+                };
+                for (int i = 0; i < bloc1.Length; i++)
+                {
+                    Console.SetCursorPosition(84, 10 + i);
+                    Console.Write(bloc1[i]);
+                }
+                DessinerBoite(83, 114, 9, 15);
+                // ZONE 2
+                Console.ForegroundColor = ConsoleColor.DarkCyan;
+                string[] bloc2 = new string[]
+                {
+                    "Zone 2: Dans",
+                    " cette zone ",
+                    "située en haut",
+                    "à droite ",
+                    "de l'écran",
+                    "s'affiche des",
+                    "informations",
+                    "sur la partie",
+                    "et sur le tour",
+                    "en cours..."
+                };
+                for (int i = 0; i < bloc2.Length; i++)
+                {
+                    Console.SetCursorPosition(120, 7 + i);
+                    Console.Write(bloc2[i]);
+                }
+                DessinerBoite(119, 134, 6, 18);
+                // ZONE 3
+                Console.ForegroundColor = ConsoleColor.DarkBlue;
+                string[] bloc3 = new string[]
+                {
+                    " Zone 3: Dans",
+                    "  cette zone ",
+                    " située en bas",
+                    "  à gauche ",
+                    " de l'écran",
+                    " s'affiche que ",
+                    "  lorsqu'un",
+                    "  ordinateur",
+                    "donne une pièce",
+                    "  a un joueur."
+                };
+                for (int i = 0; i < bloc3.Length; i++)
+                {
+                    Console.SetCursorPosition(86, 46 + i);
+                    Console.Write(bloc3[i]);
+                }
+                DessinerBoite(85, 102, 45, 55);
+                // ZONE 4
+                Console.ForegroundColor = ConsoleColor.DarkGreen;
+                string[] bloc4 = new string[]
+                {
+                    "Zone 4: Dans cette zone",
+                    "située en bas à droite",
+                    "de l'écran s'affiche les",
+                    "pièces avec lesquelles",
+                    "vous pouvez encore jouer"
+                };
+                for (int i = 0; i < bloc4.Length; i++)
+                {
+                    Console.SetCursorPosition(115, 45 + i);
+                    Console.Write(bloc4[i]);
+                }
+                DessinerBoite(114, 140, 44, 50);
+
+                // Description des touches
+                Console.ForegroundColor = ConsoleColor.Black;
+                Console.SetCursorPosition(0, 17);
+                Console.Write("\u2560"+ new string('\u2550',74)+"\u2563");
+                Console.SetCursorPosition(3,19);
+                Console.Write("Contrôles du jeux:");
+                // Flèches directionelles
+                AfficherTouche(5, 21, "▲");
+                AfficherTouche(2, 24, "<");
+                AfficherTouche(5, 24, "▼");
+                AfficherTouche(8, 24, ">");
+                Console.SetCursorPosition(11, 22);
+                Console.Write("Pour jouer, le joueur 1 utilise");
+                Console.SetCursorPosition(13, 23);
+                Console.Write("les flèches directionelles pour se déplacer.");
+                Console.SetCursorPosition(17, 25);
+                Console.Write("Les même contrôles sont utilisés ");
+                Console.SetCursorPosition(17, 26);
+                Console.Write("lorsque le jouer est seul contre l'ordinateur");
+                // Touhces joueur 2
+                Console.SetCursorPosition(4,29);
+                Console.Write("Si un deuxième joueur est dans la partie,");
+                Console.SetCursorPosition(4,30);
+                Console.Write("Ce dernier pourra utiliser les touches:");
+                AfficherTouche(51, 28,"Z");
+                AfficherTouche(48, 31, "Q");
+                AfficherTouche(51, 31, "S");
+                AfficherTouche(54, 31, "D");
+                Console.SetCursorPosition(7, 32);
+                Console.Write("Pour se déplacer sur le plateau,");
+                Console.SetCursorPosition(8, 33);
+                Console.Write("et choisir ses pièces.");
+                // Touche commune
+                Console.SetCursorPosition(8, 37);
+                Console.Write("Attention, la touche entrer est une touche commune au deux joueurs!");
+                Console.ForegroundColor = ConsoleColor.DarkRed;
+                Console.SetCursorPosition(2, 36);
+                Console.Write("\u250c" + new string('\u2500',3) + "\u2510");
+                Console.SetCursorPosition(2, 37);
+                Console.Write("\u2502" + "ent" + "\u2502");
+                Console.SetCursorPosition(2, 38);
+                Console.Write("\u2514" + "\u2500" + "\u2510" + " " + "\u2502");
+                Console.SetCursorPosition(2, 39);
+                Console.Write("  " + "\u2502" + " " + "\u2502");
+                Console.SetCursorPosition(2, 40);
+                Console.Write("  " + "\u2514" + "\u2500" + "\u2518");
+                Console.SetCursorPosition(9, 39);
+                Console.ForegroundColor = ConsoleColor.Black;
+                Console.Write("Elle vous permet de selectionner les pièces pour l'adversaire,");
+                Console.SetCursorPosition(10, 40);
+                Console.Write("et de déposer les pièces que l'on vous donne sur le plateau.");
+                // Miscalleneous
+                Console.SetCursorPosition(4,43);
+                Console.Write("A tout moment, vous pouvez mettre le jeux en pause en appuyant sur");
+                AfficherTouche(71, 42, "P");
+                Console.SetCursorPosition(4, 44);
+                Console.Write("Ce menu vous permet de sauvegarder votre partie en cours.");
+                Console.SetCursorPosition(9,48);
+                Console.Write("Vous pouvez utiliser la touche echap");
+                AfficherTouche(3, 47, "esc");
+                Console.SetCursorPosition(10, 49);
+                Console.Write("pour quitter le jeux à tout moment");
+                // Quitter (2)
+                Console.SetCursorPosition((Console.WindowWidth / 2 - quitter.Length) / 2, 55);
+                Console.Write(quitter);
 
                 System.ConsoleKeyInfo Bouton = Console.ReadKey();
                 if (Bouton.Key == ConsoleKey.Escape) exit = true;
 
             }
+        }
+
+        private static void DessinerBoite(int x1, int x2, int y1, int y2)
+        {
+            // caractères utiles à l'affichage
+            char horizontalLine = '\u2550';
+            char topLeftCorner = '\u2554';
+            char topRightCorner = '\u2557';
+            char bottomLeftCorner = '\u255A';
+            char bottomRightCorner = '\u255D';
+            char verticalLine = '\u2551';
+
+            for (int i = x1; i < x2; i++)
+            {
+                Console.SetCursorPosition(i, y1);
+                Console.Write(horizontalLine);
+                Console.SetCursorPosition(i, y2);
+                Console.Write(horizontalLine);
+            }
+            for (int i = y1; i < y2; i++)
+            {
+                Console.SetCursorPosition(x1, i);
+                Console.Write(verticalLine);
+                Console.SetCursorPosition(x2, i);
+                Console.Write(verticalLine);
+            }
+
+            Console.SetCursorPosition(x1, y1);
+            Console.Write(topLeftCorner);
+            Console.SetCursorPosition(x2, y1);
+            Console.Write(topRightCorner);
+            Console.SetCursorPosition(x1, y2);
+            Console.Write(bottomLeftCorner);
+            Console.SetCursorPosition(x2, y2);
+            Console.Write(bottomRightCorner);
+            Console.SetCursorPosition(0, 0);
         }
 
         // Fonction permettant de montrer ou l'ordinateur pose sa piece
@@ -770,39 +1005,21 @@ namespace Quarto
 
         private static void AfficherCadre()
         {
-            // caractères utiles à l'affichage
-            char horizontalLine = '\u2550';
-            char topLeftCorner = '\u2554';
-            char topRightCorner = '\u2557';
-            char bottomLeftCorner = '\u255A';
-            char bottomRightCorner = '\u255D';
-            char verticalLine = '\u2551';
+            int largeur = Console.WindowWidth;
+            int hauteur = Console.WindowHeight;
+            DessinerBoite(0, largeur - 1, 0, hauteur - 1);
+        }
 
-            for (int i = 1; i < Console.WindowWidth; i++)
-            {
-                Console.SetCursorPosition(i, 0);
-                Console.Write(horizontalLine);
-                Console.SetCursorPosition(i, Console.WindowHeight - 1);
-                Console.Write(horizontalLine);
-            }
-            for (int i = 1; i < Console.WindowHeight - 1; i++)
-            {
-                Console.SetCursorPosition(0, i);
-                Console.Write(verticalLine);
-                Console.SetCursorPosition(Console.WindowWidth - 1, i);
-                Console.Write(verticalLine);
-            }
-
-            Console.SetCursorPosition(0, 0);
-            Console.Write(topLeftCorner);
-            Console.SetCursorPosition(Console.WindowWidth - 1, 0);
-            Console.Write(topRightCorner);
-            Console.SetCursorPosition(0, Console.WindowHeight - 1);
-            Console.Write(bottomLeftCorner);
-            Console.SetCursorPosition(Console.WindowWidth - 1, Console.WindowHeight - 1);
-            Console.Write(bottomRightCorner);
-            Console.SetCursorPosition(0, 0);
-
+        private static void AfficherTouche(int x, int y, string touche)
+        {
+            Console.ForegroundColor = ConsoleColor.DarkGray;
+            Console.SetCursorPosition(x, y);
+            Console.Write("\u250c" + new string('\u2500',touche.Length) + "\u2510");
+            Console.SetCursorPosition(x, y+1);
+            Console.Write("\u2502" + touche + "\u2502");
+            Console.SetCursorPosition(x, y+2);
+            Console.Write("\u2514" + new string('\u2500', touche.Length) + "\u2518");
+            Console.ForegroundColor = ConsoleColor.Black;
         }
     }
 }
