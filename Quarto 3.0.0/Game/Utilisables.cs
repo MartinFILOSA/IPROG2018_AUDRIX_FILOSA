@@ -9,9 +9,9 @@ namespace Quarto
     class Utilisables
     {
         // fonction permettant d'initialiser le tableau de jeu et les pieces jouables
-        internal static void InitialiserPartie(string nomFichier, ref int [,] plateau, ref int[] piecesJouables)
+        internal static void InitialiserPartie(string nomFichier, ref int[,] plateau, ref int[] piecesJouables)
         {
-            Console.WriteLine(nomFichier);
+            //Console.WriteLine(nomFichier);
             string[] lines = System.IO.File.ReadAllLines(@nomFichier); // permet de lire le fichier de sauvegarde (.txt)
             // Boucle d'initialisation du plateau
             string[] etat = lines[0].Split(' ');
@@ -25,7 +25,7 @@ namespace Quarto
             for (int i = 0; i < etat.Length; i++) piecesJouables[i] = Convert.ToInt32(etat[i]);
         }
 
-        internal static void Pos2Coord(out int x, out  int y, int pos)
+        internal static void Pos2Coord(out int x, out int y, int pos)
         {
             x = pos / 4;
             y = pos % 4;
@@ -47,7 +47,7 @@ namespace Quarto
             while (indice == -1)
             {
                 indice = piecesJouables[pieceCourante];
-                if(piecesJouables[pieceCourante] < 0) pieceCourante++;
+                if (piecesJouables[pieceCourante] < 0) pieceCourante++;
             }
             IHM.AfficherEcranJeux(piecesJouables, pieceCourante);
             while (!choix)
@@ -66,10 +66,11 @@ namespace Quarto
                 }
                 else if (mouvement.Key == ConsoleKey.P)
                 {
-                    sauvegarde = IHM.AfficherMenuPause(sauvegarde);
+                    sauvegarde = IHM.AfficherMenuPause(sauvegarde, plateau, piecesJouables);
                     pause = true;
                 }
-                else if (mouvement.Key == ConsoleKey.Escape) Environment.Exit(0);
+                else if (mouvement.Key == ConsoleKey.Escape && sauvegarde == true) Environment.Exit(0);
+                else if (mouvement.Key == ConsoleKey.Escape && sauvegarde == false) IHM.AfficherQuitter(plateau, piecesJouables, -1, pieceCourante);
 
                 if (colonneCourante < 0) colonneCourante = Math.Abs(colonneCourante + 4) % 4;
                 if (ligneCourante < 0) ligneCourante = Math.Abs(ligneCourante + 4) % 4;
@@ -77,7 +78,7 @@ namespace Quarto
                 //if(piecesJouables[pieceCourante] >= 0) 
                 if (pause) IHM.AfficherEcranJeux(plateau, piecesJouables, -1, pieceCourante);
                 else IHM.AfficherEcranJeux(piecesJouables, pieceCourante);
-                
+
             }
             return pieceCourante;
         }
@@ -85,7 +86,7 @@ namespace Quarto
         internal static bool PoserPiece(int idPiece, int[,] plateau, bool sauvegarde, int[] piecesJouables)
         {
             bool choix = false;
-            
+
             int colonneCourante = 0;
             int ligneCourante = 0;
             int caseCourante = 0;
@@ -93,7 +94,7 @@ namespace Quarto
             Utilisables.Pos2Coord(out int x, out int y, indice);
 
 
-            while (plateau[x,y] != -1)
+            while (plateau[x, y] != -1)
             {
                 indice++;
                 Utilisables.Pos2Coord(out x, out y, indice);
@@ -118,11 +119,11 @@ namespace Quarto
                 }
                 else if (mouvement.Key == ConsoleKey.P)
                 {
-                    sauvegarde = IHM.AfficherMenuPause(sauvegarde);
+                    sauvegarde = IHM.AfficherMenuPause(sauvegarde, plateau, piecesJouables);
                     pause = true;
                 }
-                else if (mouvement.Key == ConsoleKey.Escape) Environment.Exit(0);
-
+                else if (mouvement.Key == ConsoleKey.Escape && sauvegarde == true) Environment.Exit(0);
+                else if (mouvement.Key == ConsoleKey.Escape && sauvegarde == false) IHM.AfficherQuitter(plateau, piecesJouables, caseCourante, -1, idPiece);
                 if (colonneCourante < 0) colonneCourante = Math.Abs(colonneCourante + 4) % 4;
                 if (ligneCourante < 0) ligneCourante = Math.Abs(ligneCourante + 4) % 4;
                 caseCourante = Coor2Pos(ligneCourante, colonneCourante);
@@ -140,7 +141,33 @@ namespace Quarto
         {
             System.Media.SoundPlayer player = new System.Media.SoundPlayer();
             player.SoundLocation = "../../Musiques\\ETFC.wav";
-            player.Play();  
+            player.Play();
+        }
+
+        internal static void SauvegarderPartie(int[,] plateau, int[] piecesJouables)
+        {
+            string nom = FaireNom();
+            string ligne1 = "", ligne2 = "";
+            foreach (int piece in plateau)
+            {
+                ligne1 += Convert.ToString(piece) + " ";
+            }
+            foreach (int piece in piecesJouables)
+            {
+                ligne2 += Convert.ToString(piece) + " ";
+            }
+            string[] donnees = { ligne1.Substring(0, ligne1.Length - 1), ligne2.Substring(0, ligne2.Length - 1) };
+            System.IO.File.WriteAllLines(@"../../Sauvegardes\\" + nom + ".txt", donnees);
+        }
+
+        private static string FaireNom()
+        {
+            DateTime info = System.DateTime.Now;
+            string[] dateHeure = Convert.ToString(info).Split(' ');
+            string date = dateHeure[0].Replace('/', '-');
+            string heure = dateHeure[1].Replace(':', '-').Substring(0, dateHeure[1].Length - 3);
+            string nom = "PvO_" + Convert.ToString(date) + "_" + heure;
+            return nom;
         }
     }
 }
