@@ -195,7 +195,7 @@ namespace Quarto
             Console.ForegroundColor = ConsoleColor.Black;
         }
 
-        internal static bool AfficherMenuPause(bool sauvegarde)
+        internal static bool AfficherMenuPause(bool sauvegarde, int[,] plateau, int[] piecesJouables)
         {
             
             bool pause = true;
@@ -215,11 +215,23 @@ namespace Quarto
                 else if (Bouton.Key == ConsoleKey.Enter)
                 {
                     if (courant == 2 && sauvegarde == true) Environment.Exit(0); // Bouton Quitter
+                    else if (courant == 2 && sauvegarde == false) AfficherQuitter();
                     else if (courant == 1)
                     {
-                        InitialiserEcranJeux();
+                        Utilisables.SauvegarderPartie(plateau, piecesJouables);
                         sauvegarde = true;
-                        pause = false;
+                        string sauvegardeFaite = "Votre partie à bien été enregistrée";
+                        string vide = new string(' ', sauvegardeFaite.Length);
+                        for (int i = 0; i < 3; i++)
+                        {
+                            Console.SetCursorPosition((Console.WindowWidth - sauvegardeFaite.Length) / 2, 35);
+                            Console.Write(sauvegardeFaite);
+                            System.Threading.Thread.Sleep(800);
+                            Console.SetCursorPosition((Console.WindowWidth - sauvegardeFaite.Length) / 2, 35);
+                            Console.Write(vide);
+                            System.Threading.Thread.Sleep(200);
+                        }
+                        //pause = false;
                     }
                     else
                     {
@@ -232,6 +244,62 @@ namespace Quarto
                 
             }
             return sauvegarde;
+        }
+
+        internal static void AfficherQuitter()
+        {
+            Console.BackgroundColor = ConsoleColor.White;
+            bool sur = false;
+            int courantQuitter = 1;
+            while (!sur)
+            {
+                Console.Clear();
+                AfficherQuarto();
+                ConsoleColor[] couleur = new ConsoleColor[] { ConsoleColor.Black };
+                AfficherTextRegulier(new string[] { "Votre partie en cours n'est pas sauvegardée" }, couleur, 25);
+                AfficherTextRegulier(new string[] { "Si vous quittez des coups joués seront perdus" }, couleur, 27);
+                AfficherTextRegulier(new string[] { "Etes vous sur de vouloir quitter ?" }, couleur, 31);
+                AfficherBouton(new string[] { "O U I", "N O N" }, courantQuitter, 35);
+                System.ConsoleKeyInfo Bouton = Console.ReadKey();
+                if (Bouton.Key == ConsoleKey.LeftArrow) courantQuitter = (courantQuitter -= 1) % 2;
+                else if (Bouton.Key == ConsoleKey.RightArrow) courantQuitter = (courantQuitter += 1) % 2;
+                else if (Bouton.Key == ConsoleKey.Enter)
+                {
+                    if (courantQuitter == 1) sur = true;
+                    else Environment.Exit(0);
+                }
+                if (courantQuitter < 0) courantQuitter = Math.Abs(courantQuitter + 2) % 2;
+            }
+        }
+
+        internal static void AfficherQuitter(int[,] plateau, int[] piecesJouables, int caseCourante = -1, int pieceCourante = -1, int idPiece = -1)
+        {
+            Console.BackgroundColor = ConsoleColor.White;
+            bool sur = false;
+            int courantQuitter = 1;
+            while (!sur)
+            {
+                Console.Clear();
+                AfficherQuarto();
+                ConsoleColor[] couleur = new ConsoleColor[] { ConsoleColor.Black };
+                AfficherTextRegulier(new string[] {"Votre partie en cours n'est pas sauvegardée"}, couleur, 25);
+                AfficherTextRegulier(new string[] { "Si vous quittez des coups joués seront perdus" }, couleur, 27);
+                AfficherTextRegulier(new string[] { "Etes vous sur de vouloir quitter ?" }, couleur, 31);
+                AfficherBouton(new string[] { "O U I", "N O N" }, courantQuitter, 35);
+                System.ConsoleKeyInfo Bouton = Console.ReadKey();
+                if (Bouton.Key == ConsoleKey.LeftArrow) courantQuitter = (courantQuitter -= 1) % 2;
+                else if (Bouton.Key == ConsoleKey.RightArrow) courantQuitter = (courantQuitter += 1) % 2;
+                else if (Bouton.Key == ConsoleKey.Enter)
+                {
+                    if (courantQuitter == 1) sur = true;
+                    else Environment.Exit(0);
+                }
+                if (courantQuitter < 0) courantQuitter = Math.Abs(courantQuitter + 2) % 2;
+            }
+            Console.Clear();
+            InitialiserEcranJeux();
+            AfficherChoixOrdi(idPiece);
+            AfficherEcranJeux(plateau, piecesJouables, caseCourante, pieceCourante);
         }
 
         // Fonction permettant d'afficher l'écran de menu
@@ -371,17 +439,16 @@ namespace Quarto
                 AfficherTextRegulier(new string[] { "BIENVENU DANS L'INTERFACE DE CHARGEMENT DE QUARTO" }, noir, 3);
                 AfficherTextRegulier(new string[] { "Ici, vous pouvez selectionner un fichier" }, noir, 8);
                 AfficherTextRegulier(new string[] { "afin de reprendre une partie en cours" }, noir, 9);
-                AfficherTextRegulier(new string[] { "Les fichier sont enregistrés de la manière suivante:", "        PvP_JJ/MM/AA_HH_MM " }, new ConsoleColor[] { ConsoleColor.Black, ConsoleColor.DarkRed} , 12);
+                AfficherTextRegulier(new string[] { "Les fichier sont enregistrés de la manière suivante:", "        PvO_JJ-MM-AA_HH-MM " }, new ConsoleColor[] { ConsoleColor.Black, ConsoleColor.DarkRed} , 12);
 
                 DessinerLigneH(6);
                 DessinerLigneH(11);
                 DessinerLigneH(13);
                 int nombreFichierColonne = 20;
                 DessinerLigneH(16 + nombreFichierColonne);
-                DessinerLigneV(13, nombreFichierColonne + 3, 31);
-                DessinerLigneV(13, nombreFichierColonne + 3, 61);
-                DessinerLigneV(13, nombreFichierColonne + 3, 91);
-                DessinerLigneV(13, nombreFichierColonne + 3, 121);
+                DessinerLigneV(13, nombreFichierColonne + 3, 37);
+                DessinerLigneV(13, nombreFichierColonne + 3, 75);
+                DessinerLigneV(13, nombreFichierColonne + 3, 113);
 
                 //Boucle permettant de choisir son fichier de sauvegarde
                 
@@ -393,7 +460,7 @@ namespace Quarto
                         int x = 2;
                         foreach (string nom in noms)
                         {
-                            if (nom == "../../Sauvegardes\\NouvellePartie.txt") continue;
+                            if (nom == "../../Sauvegardes\\Z_NouvellePartie.txt") continue;
                             if (calculCourant == fichierCourant)
                             {
                                 Console.BackgroundColor = ConsoleColor.Black;
@@ -542,19 +609,23 @@ namespace Quarto
         private static void DessinerPiece(int x, int y, int id, bool estCourante = false)
         {
             string[] piecesRep = CreerPiecesGraphique(); // Peut être améliorer: création unique ??
-            string[] lignes = piecesRep[id].Split('-');
-            int hauteur = 0;
-            if (id % 2 == 0) Console.ForegroundColor = ConsoleColor.DarkBlue;
-            else Console.ForegroundColor = ConsoleColor.DarkRed;
-            foreach(string ligne in lignes)
+            if(id >= 0)
             {
-                Console.SetCursorPosition(x, y + hauteur);
-                Console.Write(ligne);
-                hauteur--;
+                string[] lignes = piecesRep[id].Split('-');
+                int hauteur = 0;
+                if (id % 2 == 0) Console.ForegroundColor = ConsoleColor.DarkBlue;
+                else Console.ForegroundColor = ConsoleColor.DarkRed;
+                foreach (string ligne in lignes)
+                {
+                    Console.SetCursorPosition(x, y + hauteur);
+                    Console.Write(ligne);
+                    hauteur--;
+                }
+                Console.ForegroundColor = ConsoleColor.Black;
+                if (estCourante) AfficherBoiteSelection(x, y);
+                else EffacerSelection(x, y);
             }
             Console.ForegroundColor = ConsoleColor.Black;
-            if (estCourante) AfficherBoiteSelection(x, y);
-            else EffacerSelection(x, y);
         }
 
         private static void EffacerPiece(int x, int y, bool estCourante = false)

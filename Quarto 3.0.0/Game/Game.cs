@@ -71,7 +71,6 @@ namespace Quarto
             }
             // Initialisation du tableau et des pieces pour la partie
             Utilisables.InitialiserPartie(nomFichier, ref plateau, ref piecesJouables);
-
             IHM.InitialiserEcranJeux();
 
             int caseCourante = -1;
