@@ -405,7 +405,7 @@ namespace Quarto
             }
 
             //======================================================VERSIONS=========================================================
-            string nomVersion = "VERSION : 3.0.2 - NewSkin";
+            string nomVersion = "VERSION : 3.7.5 - Savior";
             Console.SetCursorPosition(Console.WindowWidth - (nomVersion.Length + 1), 0);
             Console.Write(nomVersion);
 
