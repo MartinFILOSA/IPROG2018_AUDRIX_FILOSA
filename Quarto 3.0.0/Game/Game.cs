@@ -10,8 +10,6 @@ namespace Quarto
             int[,] plateau = new int[4, 4]; // variable représentant l'état du plateu de jeux pendant la partie
             int[] piecesJouables = new int[16]; // variable contenant l'identifiant des pieces encore disponibles
             //int[] piecesJouees = new int[16]; // variable contenant l'identifiant des pieces déjà placées sur le plateau
-            bool victoire = false; // paramètre qui maintiens la boucle de jeu: tant qu'il n'y a pas de victoire
-            int turn = 0; //compteur de tour qui permet de gerer qui joue (J1 vs J2) ou (Joueur vs Ordinateur)
 
             IHM.InitialiserGraphiques();
             IHM.AfficherIntro();
@@ -63,7 +61,7 @@ namespace Quarto
                 if (BoutonChargerCourant < 0) BoutonChargerCourant = Math.Abs(BoutonChargerCourant + 2) % 2;
             }
             //============================================================================================================
-            string nomFichier = "../../Sauvegardes\\NouvellePartie.txt";
+            string nomFichier = "../../Sauvegardes\\Z_NouvellePartie.txt";
             //============================================================================================================
             //                                  Création de la partie chargée ou non
             //============================================================================================================
@@ -75,6 +73,7 @@ namespace Quarto
             Utilisables.InitialiserPartie(nomFichier, ref plateau, ref piecesJouables);
 
             IHM.InitialiserEcranJeux();
+
             int caseCourante = -1;
             int pieceCourante = -1;
             IHM.AfficherEcranJeux(plateau, piecesJouables, caseCourante, pieceCourante);
