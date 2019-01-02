@@ -83,7 +83,7 @@ namespace Quarto
             return pieceCourante;
         }
 
-        internal static bool PoserPiece(int idPiece, int[,] plateau, bool sauvegarde, int[] piecesJouables)
+        internal static bool PoserPiece(out int position, int idPiece, int[,] plateau, bool sauvegarde, int[] piecesJouables)
         {
             bool choix = false;
 
@@ -134,9 +134,108 @@ namespace Quarto
                 }
                 else IHM.AfficherEcranJeux(plateau, caseCourante);
             }
+            position = caseCourante;
             return sauvegarde;
         }
 
+        internal static bool TesterVictoire(int idPiece, int position, int [,] plateau)
+        {
+            int[][] piecesCalcul = new int[16][];
+            piecesCalcul[0] = new int[] { 0, 0, 0, 0 };
+            piecesCalcul[1] = new int[] { 0, 0, 0, 1 };
+            piecesCalcul[2] = new int[] { 0, 0, 1, 0 };
+            piecesCalcul[3] = new int[] { 0, 0, 1, 1 };
+            piecesCalcul[4] = new int[] { 0, 1, 0, 0 };
+            piecesCalcul[5] = new int[] { 0, 1, 0, 1 };
+            piecesCalcul[6] = new int[] { 0, 1, 1, 0 };
+            piecesCalcul[7] = new int[] { 0, 1, 1, 1 };
+            piecesCalcul[8] = new int[] { 1, 0, 0, 0 };
+            piecesCalcul[9] = new int[] { 1, 0, 0, 1 };
+            piecesCalcul[10] = new int[] { 1, 0, 1, 0 };
+            piecesCalcul[11] = new int[] { 1, 0, 1, 1 };
+            piecesCalcul[12] = new int[] { 1, 1, 0, 0 };
+            piecesCalcul[13] = new int[] { 1, 1, 0, 1 };
+            piecesCalcul[14] = new int[] { 1, 1, 1, 0 };
+            piecesCalcul[15] = new int[] { 1, 1, 1, 1 };
+
+            Pos2Coord(out int ligne, out int colonne, position);
+            char diagonale;
+            bool gagner = false;
+
+            if (LignePleine(ligne, plateau))
+            {
+                int[] res = new int[] { 0, 0, 0, 0 };
+                for (int i = 0; i < plateau.GetLength(1); i++)
+                    for (int j = 0; j < res.Length; j++)
+                        res[j] += piecesCalcul[plateau[ligne,i]][j];
+                if (Array.Exists(res, element => element == 4)) gagner = true;
+                if (Array.Exists(res, element => element == 0)) gagner = true;
+
+            }
+            if (ColonnePleine(colonne, plateau))
+            {
+                int[] res = new int[] { 0, 0, 0, 0 };
+                for (int i = 0; i < plateau.GetLength(1); i++)
+                    for (int j = 0; j < res.Length; j++)
+                        res[j] += piecesCalcul[plateau[i, colonne]][j];
+                if (Array.Exists(res, element => element == 4)) gagner = true;
+                if (Array.Exists(res, element => element == 0)) gagner = true;
+            }
+            if (DiagonalePleine(out diagonale, position, plateau))
+            {
+                int[] res = new int[] { 0, 0, 0, 0 };
+                if (diagonale == 'd')
+                {
+                    for (int i = 0; i < plateau.GetLength(0); i++)
+                        for (int j = 0; j < res.Length; j++)
+                            res[j] += piecesCalcul[plateau[i, i]][j];
+                }
+                else if (diagonale == 'm')
+                {
+                    for (int i = 0; i < plateau.GetLength(0); i++)
+                        for (int j = 0; j < res.Length; j++)
+                            res[j] += piecesCalcul[plateau[i, 3 - i]][j];
+                }
+                if (Array.Exists(res, element => element == 4)) gagner = true;
+                if (Array.Exists(res, element => element == 0)) gagner = true;
+            }
+            return gagner;
+        }
+
+        public static bool LignePleine(int ligne, int[,] plateau)
+        {
+            bool pleine = true;
+            for (int i = 0; i < plateau.GetLength(1); i++) if (plateau[ligne, i] == -1) pleine = false;
+            return pleine;
+        }
+
+        public static bool ColonnePleine(int colonne, int[,] plateau)
+        {
+            bool pleine = true;
+            for (int i = 0; i < plateau.GetLength(0); i++) if (plateau[i, colonne] == -1) pleine = false;
+            return pleine;
+        }
+
+        public static bool DiagonalePleine(out char diagonale, int position, int[,] plateau)
+        {
+            diagonale = 'd';
+            bool pleine = true;
+            int[] diagoDsc = new int[] { 0, 5, 10, 15 };
+            int[] diagoAsc = new int[] { 3, 6, 9, 12 };
+            if (Array.Exists(diagoDsc, element => element == position))
+            {
+                diagonale = 'd';
+                for (int i = 0; i < plateau.GetLength(0); i++) if (plateau[i, i] == -1) pleine = false;
+            }
+            else if (Array.Exists(diagoAsc, element => element == position))
+            {
+                diagonale = 'm';
+                for (int i = 0; i < plateau.GetLength(0); i++) if (plateau[i, 3 - i] == -1) pleine = false;
+            }
+            else pleine = false;
+            return pleine;
+        }
+        
         internal static void JouerMusiqueIntro()
         {
             System.Media.SoundPlayer player = new System.Media.SoundPlayer();

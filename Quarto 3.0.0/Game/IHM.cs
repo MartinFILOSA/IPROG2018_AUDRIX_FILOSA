@@ -195,6 +195,32 @@ namespace Quarto
             Console.ForegroundColor = ConsoleColor.Black;
         }
 
+        internal static void AfficherEgalite()
+        {
+            Console.Clear();
+            AfficherQuarto();
+            ConsoleColor[] couleur = new ConsoleColor[] { ConsoleColor.Black };
+            AfficherTextRegulier(new string[] { "Egalité ! personne ne gagne..." }, couleur, 25);
+            DessinerBoite(64, 85, 29, 31);
+            AfficherTextRegulier(new string[] { "MERCI d'avoir joué" }, couleur, 30);
+            Console.SetCursorPosition(0, 0);
+            System.Threading.Thread.Sleep(2000); // A voir si on laisse quitter
+            Environment.Exit(0);
+        }
+
+        internal static void AfficherEcranVictoire(bool joueur)
+        {
+            Console.Clear();
+            AfficherQuarto();
+            ConsoleColor[] couleur = new ConsoleColor[] { ConsoleColor.Black };
+            if (joueur) AfficherTextRegulier(new string[] { "L'ordinateur à gagné... Dommage" }, couleur, 25);
+            else AfficherTextRegulier(new string[] { "Vous avez gagné !! félicitations" }, couleur, 25);
+            DessinerBoite(64,85,29,31);
+            AfficherTextRegulier(new string[] { "MERCI d'avoir joué" }, couleur, 30);
+            Console.SetCursorPosition(0, 0);
+            System.Threading.Thread.Sleep(2000); // A voir si on laisse quitter 
+        }
+
         internal static bool AfficherMenuPause(bool sauvegarde, int[,] plateau, int[] piecesJouables)
         {
             

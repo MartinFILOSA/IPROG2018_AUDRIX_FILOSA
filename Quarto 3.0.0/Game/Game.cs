@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 
 namespace Quarto
 {
@@ -82,15 +83,19 @@ namespace Quarto
             //                           Départ de la Boucle de jeux pour un Player vs Ordi
             //============================================================================================================
             bool sauvegarde = false;
+            bool joueur = true;
+            int[] piecesVides = new int[] { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 };
             while (!gagner)
             {
+                if (piecesJouables.SequenceEqual(piecesVides)) IHM.AfficherEgalite();
                 // Tour de l'ordinateur
                 if (tour % 2 == 0)
                 {
                     int idPiece = Utilisables.ChoisirPiece(piecesJouables, sauvegarde, plateau);
                     IHM.AfficherEcranJeux(piecesJouables);
-                    sauvegarde = IA.PoserPiece(idPiece, plateau);
+                    sauvegarde = IA.PoserPiece(out int position, idPiece, plateau);
                     IHM.AfficherEcranJeux(plateau);
+                    gagner = Utilisables.TesterVictoire(idPiece, position, plateau);
                 }
                 // Tour du joueur
                 else
@@ -98,16 +103,16 @@ namespace Quarto
                     int idPiece = IA.ChoisirPiece(piecesJouables);
                     sauvegarde = false;
                     IHM.AfficherEcranJeux(piecesJouables);
-                    sauvegarde = Utilisables.PoserPiece(idPiece, plateau, sauvegarde, piecesJouables);
+                    sauvegarde = Utilisables.PoserPiece(out int position, idPiece, plateau, sauvegarde, piecesJouables);
                     IHM.AfficherEcranJeux(plateau);
+                    gagner = Utilisables.TesterVictoire(idPiece, position, plateau);
+                    if (gagner) joueur = false;
                 }
                 tour++;
             }
-
             Console.Read();
-
-
-
+            IHM.AfficherEcranVictoire(joueur);
+           //Console.Read();
         }
     }
 }
