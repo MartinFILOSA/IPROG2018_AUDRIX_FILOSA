@@ -73,6 +73,41 @@ namespace Quarto
             return piecesRep;
         }
 
+        internal static bool AfficherRejouer()
+        {
+            Console.Clear();
+            Console.ForegroundColor = ConsoleColor.Black;
+            AfficherQuarto();
+            int courantRejouer = 0;
+            bool jouer = true;
+            bool choix = false;
+            ConsoleColor[] couleur = new ConsoleColor[] { ConsoleColor.Black };
+            while (!choix)
+            {
+                AfficherTextRegulier(new string[] { "Voulez vous rejouer" }, couleur, 25);
+                //DessinerBoite(64, 85, 29, 31);
+                AfficherBouton(new string[] { "O U I", "N O N" }, courantRejouer, 35);
+                System.ConsoleKeyInfo Bouton = Console.ReadKey();
+                if (Bouton.Key == ConsoleKey.LeftArrow) courantRejouer = (courantRejouer -= 1) % 2;
+                else if (Bouton.Key == ConsoleKey.RightArrow) courantRejouer = (courantRejouer += 1) % 2;
+                else if (Bouton.Key == ConsoleKey.Enter)
+                {
+                    if (courantRejouer == 1)
+                    {
+                        choix = true;
+                        jouer = false;
+                    }
+                    else choix = true;
+
+                }
+                if (courantRejouer < 0) courantRejouer = Math.Abs(courantRejouer + 2) % 2;
+            }
+            
+            
+            
+            return jouer;
+        }
+
         // Fonction permettant d'afficher "l'écran de cahrgement" 
         internal static void AfficherIntro()
         {
@@ -194,7 +229,8 @@ namespace Quarto
             }
             Console.ForegroundColor = ConsoleColor.Black;
         }
-
+        
+        // Fonction qui affiche l'écran de victoire dans le cas d'une égalité
         internal static void AfficherEgalite()
         {
             Console.Clear();
@@ -204,10 +240,11 @@ namespace Quarto
             DessinerBoite(64, 85, 29, 31);
             AfficherTextRegulier(new string[] { "MERCI d'avoir joué" }, couleur, 30);
             Console.SetCursorPosition(0, 0);
-            System.Threading.Thread.Sleep(2000); // A voir si on laisse quitter
+            System.Threading.Thread.Sleep(8000); // A voir si on laisse quitter
             Environment.Exit(0);
         }
 
+        // Fonction qui affiche l'écran de victoire
         internal static void AfficherEcranVictoire(bool joueur)
         {
             Console.Clear();
@@ -218,9 +255,10 @@ namespace Quarto
             DessinerBoite(64,85,29,31);
             AfficherTextRegulier(new string[] { "MERCI d'avoir joué" }, couleur, 30);
             Console.SetCursorPosition(0, 0);
-            System.Threading.Thread.Sleep(2000); // A voir si on laisse quitter 
+            System.Threading.Thread.Sleep(8000); // A voir si on laisse quitter 
         }
 
+        // Fonction de pause permettant de sauvegarder, quitter ou reprendre le jeux
         internal static bool AfficherMenuPause(bool sauvegarde, int[,] plateau, int[] piecesJouables)
         {
             
@@ -272,6 +310,7 @@ namespace Quarto
             return sauvegarde;
         }
 
+        // Notif box: êtes vous sur de vouloir quitter ?
         internal static void AfficherQuitter()
         {
             Console.BackgroundColor = ConsoleColor.White;
