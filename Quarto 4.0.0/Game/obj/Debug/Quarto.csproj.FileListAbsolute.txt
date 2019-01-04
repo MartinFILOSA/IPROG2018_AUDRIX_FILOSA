@@ -1,0 +1,14 @@
+C:\Users\simon\Desktop\Cours 1A\IPROG2018_AUDRIX_FILOSA\Quarto 3.0.0\Game\bin\Debug\Game.exe.config
+C:\Users\simon\Desktop\Cours 1A\IPROG2018_AUDRIX_FILOSA\Quarto 3.0.0\Game\bin\Debug\Game.exe
+C:\Users\simon\Desktop\Cours 1A\IPROG2018_AUDRIX_FILOSA\Quarto 3.0.0\Game\bin\Debug\Game.pdb
+C:\Users\simon\Desktop\Cours 1A\IPROG2018_AUDRIX_FILOSA\Quarto 3.0.0\Game\obj\Debug\Quarto.csprojAssemblyReference.cache
+C:\Users\simon\Desktop\Cours 1A\IPROG2018_AUDRIX_FILOSA\Quarto 3.0.0\Game\obj\Debug\Quarto.csproj.CoreCompileInputs.cache
+C:\Users\simon\Desktop\Cours 1A\IPROG2018_AUDRIX_FILOSA\Quarto 3.0.0\Game\obj\Debug\Game.exe
+C:\Users\simon\Desktop\Cours 1A\IPROG2018_AUDRIX_FILOSA\Quarto 3.0.0\Game\obj\Debug\Game.pdb
+C:\Users\simon\Desktop\Cours 1A\IPROG2018_AUDRIX_FILOSA\Quarto 4.0.0\Game\bin\Debug\Game.exe.config
+C:\Users\simon\Desktop\Cours 1A\IPROG2018_AUDRIX_FILOSA\Quarto 4.0.0\Game\bin\Debug\Game.exe
+C:\Users\simon\Desktop\Cours 1A\IPROG2018_AUDRIX_FILOSA\Quarto 4.0.0\Game\bin\Debug\Game.pdb
+C:\Users\simon\Desktop\Cours 1A\IPROG2018_AUDRIX_FILOSA\Quarto 4.0.0\Game\obj\Debug\Quarto.csprojAssemblyReference.cache
+C:\Users\simon\Desktop\Cours 1A\IPROG2018_AUDRIX_FILOSA\Quarto 4.0.0\Game\obj\Debug\Quarto.csproj.CoreCompileInputs.cache
+C:\Users\simon\Desktop\Cours 1A\IPROG2018_AUDRIX_FILOSA\Quarto 4.0.0\Game\obj\Debug\Game.exe
+C:\Users\simon\Desktop\Cours 1A\IPROG2018_AUDRIX_FILOSA\Quarto 4.0.0\Game\obj\Debug\Game.pdb

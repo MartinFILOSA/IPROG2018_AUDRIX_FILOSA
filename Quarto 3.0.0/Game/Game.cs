@@ -24,8 +24,23 @@ namespace Quarto
             {
                 IHM.AfficherMenu(boutonCourantMenu);
                 System.ConsoleKeyInfo Bouton = Console.ReadKey();
-
-                // Définition des touches permettants de parcourir les boutons du menu
+                switch (Bouton.Key)
+                {
+                    case ConsoleKey.LeftArrow:
+                    case ConsoleKey.UpArrow:
+                        boutonCourantMenu = (boutonCourantMenu -= 1) % 3;
+                        break;
+                    case ConsoleKey.RightArrow:
+                    case ConsoleKey.DownArrow:
+                        boutonCourantMenu = (boutonCourantMenu += 1) % 3;
+                        break;
+                    case ConsoleKey.Enter:
+                        if (boutonCourantMenu == 2) Environment.Exit(0); // Bouton Quitter
+                        else if (boutonCourantMenu == 1) menu = false;   // Bouton Jouer
+                        else { Console.Clear(); IHM.AfficherRegles(); }  // Bouton Règles
+                        break;
+                }
+                /*// Définition des touches permettants de parcourir les boutons du menu
                 if (Bouton.Key == ConsoleKey.LeftArrow) boutonCourantMenu = (boutonCourantMenu -= 1) % 3;
                 else if (Bouton.Key == ConsoleKey.RightArrow) boutonCourantMenu = (boutonCourantMenu += 1) % 3;
 
@@ -35,7 +50,7 @@ namespace Quarto
                     if (boutonCourantMenu == 2) Environment.Exit(0); // Bouton Quitter
                     else if (boutonCourantMenu == 1) menu = false;   // Bouton Jouer
                     else { Console.Clear(); IHM.AfficherRegles(); }  // Bouton Règles
-                }
+                }*/
                 if (boutonCourantMenu < 0) boutonCourantMenu = Math.Abs(boutonCourantMenu + 3); // Permet de réaliser le "modulo négatif"
             }
             bool jouer = true;
