@@ -36,7 +36,7 @@ namespace Quarto
                     else if (boutonCourantMenu == 1) menu = false;   // Bouton Jouer
                     else { Console.Clear(); IHM.AfficherRegles(); }  // Bouton Règles
                 }
-                if (boutonCourantMenu < 0) boutonCourantMenu = Math.Abs(boutonCourantMenu + 3) % 3; // Permet de réaliser le "modulo négatif"
+                if (boutonCourantMenu < 0) boutonCourantMenu = Math.Abs(boutonCourantMenu + 3); // Permet de réaliser le "modulo négatif"
             }
             bool jouer = true;
             while (jouer)
@@ -51,6 +51,26 @@ namespace Quarto
                 {
                     IHM.AfficherEcranChargement(BoutonChargerCourant);
                     System.ConsoleKeyInfo Bouton = Console.ReadKey();
+                    switch(Bouton.Key)
+                    {
+                        case ConsoleKey.LeftArrow:
+                        case ConsoleKey.UpArrow:
+                            BoutonChargerCourant = (BoutonChargerCourant -= 1) % 2;
+                            break;
+                        case ConsoleKey.RightArrow:
+                        case ConsoleKey.DownArrow:
+                            BoutonChargerCourant = (BoutonChargerCourant += 1) % 2;
+                            break;
+                        case ConsoleKey.Enter:
+                            if (BoutonChargerCourant == 0) nouveauJeux = false;
+                            else
+                            {
+                                charger = true;
+                                nouveauJeux = false;
+                            }
+                            break;
+                    }
+                    /*
                     if (Bouton.Key == ConsoleKey.LeftArrow) BoutonChargerCourant = (BoutonChargerCourant -= 1) % 2;
                     else if (Bouton.Key == ConsoleKey.RightArrow) BoutonChargerCourant = (BoutonChargerCourant += 1) % 2;
                     else if (Bouton.Key == ConsoleKey.Enter)
@@ -62,7 +82,9 @@ namespace Quarto
                             nouveauJeux = false;
                         }
                     }
-                    if (BoutonChargerCourant < 0) BoutonChargerCourant = Math.Abs(BoutonChargerCourant + 2) % 2;
+                    */
+                    //BoutonChargerCourant = BoutonChargerCourant < 0 ? Math.Abs(BoutonChargerCourant + 2) % 2 : BoutonChargerCourant;
+                    if (BoutonChargerCourant < 0) BoutonChargerCourant = Math.Abs(BoutonChargerCourant + 2);
                 }
                 //============================================================================================================
                 string nomFichier = "../../Sauvegardes\\Z_NouvellePartie.txt";
