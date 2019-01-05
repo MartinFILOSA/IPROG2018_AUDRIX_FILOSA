@@ -40,8 +40,6 @@ namespace Quarto
         internal static int ChoisirPiece(int[] piecesJouables, bool sauvegarde, int[,] plateau)
         {
             bool choix = false;
-            int colonneCourante = 0;
-            int ligneCourante = 0;
             int indice = -1;
             int pieceCourante = 0;
             while (indice == -1)
@@ -49,32 +47,46 @@ namespace Quarto
                 indice = piecesJouables[pieceCourante];
                 if (piecesJouables[pieceCourante] < 0) pieceCourante++;
             }
-            Utilisables.Pos2Coord(out ligneCourante, out colonneCourante, pieceCourante);
+            Utilisables.Pos2Coord(out int ligneCourante, out int colonneCourante, pieceCourante);
             IHM.AfficherEcranJeux(piecesJouables, pieceCourante);
             while (!choix)
             {
                 bool pause = false;
                 System.ConsoleKeyInfo mouvement = Console.ReadKey();
-                if (mouvement.Key == ConsoleKey.LeftArrow) colonneCourante = (colonneCourante -= 1) % 4;
-                else if (mouvement.Key == ConsoleKey.RightArrow) colonneCourante = (colonneCourante += 1) % 4;
-                else if (mouvement.Key == ConsoleKey.UpArrow) ligneCourante = (ligneCourante -= 1) % 4;
-                else if (mouvement.Key == ConsoleKey.DownArrow) ligneCourante = (ligneCourante += 1) % 4;
-                else if (mouvement.Key == ConsoleKey.Enter && piecesJouables[pieceCourante] != -1)
+                switch (mouvement.Key)
                 {
-                    piecesJouables[pieceCourante] = -1;
-                    choix = true;
-                    sauvegarde = false;
+                    case ConsoleKey.LeftArrow:
+                        colonneCourante = (colonneCourante -= 1) % 4;
+                        break;
+                    case ConsoleKey.RightArrow:
+                        colonneCourante = (colonneCourante += 1) % 4;
+                        break;
+                    case ConsoleKey.UpArrow:
+                        ligneCourante = (ligneCourante -= 1) % 4;
+                        break;
+                    case ConsoleKey.DownArrow:
+                        ligneCourante = (ligneCourante += 1) % 4;
+                        break;
+                    case ConsoleKey.Enter:
+                        if (piecesJouables[pieceCourante] != -1)
+                        {
+                            piecesJouables[pieceCourante] = -1;
+                            choix = true;
+                            sauvegarde = false;
+                        }
+                        break;
+                    case ConsoleKey.P:
+                        sauvegarde = IHM.AfficherMenuPause(sauvegarde, plateau, piecesJouables);
+                        pause = true;
+                        break;
+                    case ConsoleKey.Escape:
+                        if (sauvegarde) Environment.Exit(0);
+                        else IHM.AfficherQuitter(plateau, piecesJouables, -1, pieceCourante);
+                        break;
                 }
-                else if (mouvement.Key == ConsoleKey.P)
-                {
-                    sauvegarde = IHM.AfficherMenuPause(sauvegarde, plateau, piecesJouables);
-                    pause = true;
-                }
-                else if (mouvement.Key == ConsoleKey.Escape && sauvegarde == true) Environment.Exit(0);
-                else if (mouvement.Key == ConsoleKey.Escape && sauvegarde == false) IHM.AfficherQuitter(plateau, piecesJouables, -1, pieceCourante);
 
-                if (colonneCourante < 0) colonneCourante = Math.Abs(colonneCourante + 4) % 4;
-                if (ligneCourante < 0) ligneCourante = Math.Abs(ligneCourante + 4) % 4;
+                if (colonneCourante < 0) colonneCourante = Math.Abs(colonneCourante + 4);
+                if (ligneCourante < 0) ligneCourante = Math.Abs(ligneCourante + 4);
                 pieceCourante = Coor2Pos(ligneCourante, colonneCourante);
                 //if(piecesJouables[pieceCourante] >= 0) 
                 if (pause) IHM.AfficherEcranJeux(plateau, piecesJouables, -1, pieceCourante);
@@ -87,47 +99,61 @@ namespace Quarto
         internal static bool PoserPiece(out int position, int idPiece, int[,] plateau, bool sauvegarde, int[] piecesJouables)
         {
             bool choix = false;
-
-            int colonneCourante = 0;
-            int ligneCourante = 0;
             int caseCourante = 0;
             int indice = 0;
+
             Utilisables.Pos2Coord(out int x, out int y, indice);
-
-
             while (plateau[x, y] != -1)
             {
                 indice++;
                 Utilisables.Pos2Coord(out x, out y, indice);
                 if (plateau[x, y] == -1) caseCourante = indice;
             }
-            Utilisables.Pos2Coord(out ligneCourante, out colonneCourante, caseCourante);
+            Utilisables.Pos2Coord(out int ligneCourante, out int colonneCourante, caseCourante);
+
+
             IHM.AfficherEcranJeux(plateau, caseCourante);
             while (!choix)
             {
                 bool pause = false;
                 System.ConsoleKeyInfo mouvement = Console.ReadKey();
-                if (mouvement.Key == ConsoleKey.LeftArrow) colonneCourante = (colonneCourante -= 1) % 4;
-                else if (mouvement.Key == ConsoleKey.RightArrow) colonneCourante = (colonneCourante += 1) % 4;
-                else if (mouvement.Key == ConsoleKey.UpArrow) ligneCourante = (ligneCourante -= 1) % 4;
-                else if (mouvement.Key == ConsoleKey.DownArrow) ligneCourante = (ligneCourante += 1) % 4;
-                else if (mouvement.Key == ConsoleKey.Enter && plateau[ligneCourante, colonneCourante] == -1)
+                switch (mouvement.Key)
                 {
-                    plateau[ligneCourante, colonneCourante] = idPiece;
-                    choix = true;
-                    sauvegarde = false;
-                    IHM.EffacerChoixOrdi();
+                    case ConsoleKey.LeftArrow:
+                        colonneCourante = (colonneCourante -= 1) % 4;
+                        break;
+                    case ConsoleKey.RightArrow:
+                        colonneCourante = (colonneCourante += 1) % 4;
+                        break;
+                    case ConsoleKey.UpArrow:
+                        ligneCourante = (ligneCourante -= 1) % 4;
+                        break;
+                    case ConsoleKey.DownArrow:
+                        ligneCourante = (ligneCourante += 1) % 4;
+                        break;
+                    case ConsoleKey.Enter:
+                        if(plateau[ligneCourante, colonneCourante] == -1)
+                        {
+                            plateau[ligneCourante, colonneCourante] = idPiece;
+                            choix = true;
+                            sauvegarde = false;
+                            IHM.EffacerChoixOrdi();
+                        }
+                        break;
+                    case ConsoleKey.P:
+                        sauvegarde = IHM.AfficherMenuPause(sauvegarde, plateau, piecesJouables);
+                        pause = true;
+                        break;
+                    case ConsoleKey.Escape:
+                        if (sauvegarde) Environment.Exit(0);
+                        else IHM.AfficherQuitter(plateau, piecesJouables, caseCourante, -1, idPiece);
+                        break;
                 }
-                else if (mouvement.Key == ConsoleKey.P)
-                {
-                    sauvegarde = IHM.AfficherMenuPause(sauvegarde, plateau, piecesJouables);
-                    pause = true;
-                }
-                else if (mouvement.Key == ConsoleKey.Escape && sauvegarde == true) Environment.Exit(0);
-                else if (mouvement.Key == ConsoleKey.Escape && sauvegarde == false) IHM.AfficherQuitter(plateau, piecesJouables, caseCourante, -1, idPiece);
-                if (colonneCourante < 0) colonneCourante = Math.Abs(colonneCourante + 4) % 4;
-                if (ligneCourante < 0) ligneCourante = Math.Abs(ligneCourante + 4) % 4;
+
+                if (colonneCourante < 0) colonneCourante = Math.Abs(colonneCourante + 4);
+                if (ligneCourante < 0) ligneCourante = Math.Abs(ligneCourante + 4);
                 caseCourante = Coor2Pos(ligneCourante, colonneCourante);
+
                 if (pause)
                 {
                     IHM.AfficherEcranJeux(plateau, piecesJouables, caseCourante);
@@ -141,7 +167,7 @@ namespace Quarto
 
         internal static bool TesterVictoire(int idPiece, int position, int [,] plateau)
         {
-            int[][] piecesCalcul = new int[16][];
+            int[][] piecesCalcul = new int[16][]; // à mettre en général dans Game et à passer en paramètres !
             piecesCalcul[0] = new int[] { 0, 0, 0, 0 };
             piecesCalcul[1] = new int[] { 0, 0, 0, 1 };
             piecesCalcul[2] = new int[] { 0, 0, 1, 0 };

@@ -125,6 +125,7 @@ namespace Quarto
                         etat = "REJOUER";
                         break;
                     case "REJOUER":
+                        nomFichier = "../../Sauvegardes\\Z_NouvellePartie.txt";
                         etat = IHM.AfficherRejouer() ? "MENU_2" : "FIN";
                         break;
                     case "FIN":

@@ -470,7 +470,7 @@ namespace Quarto
             }
 
             //======================================================VERSIONS=========================================================
-            string nomVersion = "VERSION : 4.0.0 - MobyDick";
+            string nomVersion = "VERSION : 4.2.3 - MobyDick";
             Console.SetCursorPosition(Console.WindowWidth - (nomVersion.Length + 1), 0);
             Console.Write(nomVersion);
 
