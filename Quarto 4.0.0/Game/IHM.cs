@@ -250,8 +250,8 @@ namespace Quarto
             Console.Clear();
             AfficherQuarto();
             ConsoleColor[] couleur = new ConsoleColor[] { ConsoleColor.Black };
-            if (joueur) AfficherTextRegulier(new string[] { "L'ordinateur à gagné... Dommage" }, couleur, 25);
-            else AfficherTextRegulier(new string[] { "Vous avez gagné !! félicitations" }, couleur, 25);
+            if (joueur) AfficherTextRegulier(new string[] { "Vous avez gagné !! félicitations" }, couleur, 25);
+            else AfficherTextRegulier(new string[] { "L'ordinateur à gagné... Dommage" }, couleur, 25);
             DessinerBoite(64,85,29,31);
             AfficherTextRegulier(new string[] { "MERCI d'avoir joué" }, couleur, 30);
             Console.SetCursorPosition(0, 0);

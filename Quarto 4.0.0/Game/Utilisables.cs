@@ -49,6 +49,7 @@ namespace Quarto
                 indice = piecesJouables[pieceCourante];
                 if (piecesJouables[pieceCourante] < 0) pieceCourante++;
             }
+            Utilisables.Pos2Coord(out ligneCourante, out colonneCourante, pieceCourante);
             IHM.AfficherEcranJeux(piecesJouables, pieceCourante);
             while (!choix)
             {
