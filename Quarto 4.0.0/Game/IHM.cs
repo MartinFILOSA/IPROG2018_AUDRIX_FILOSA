@@ -108,10 +108,49 @@ namespace Quarto
             return jouer;
         }
 
-        // Fonction permettant d'afficher "l'écran de cahrgement" 
+        // Fonction permettant d'afficher "l'écran de chargement" 
         internal static void AfficherIntro()
         {
 
+            string[] titre ={"███    ██   ████████   ██               ██ ",
+                             "████   ██   ██          ██     ███     ██  ",
+                             "██ ██  ██   █████        ██   ██ ██   ██   ",
+                             "██  ██ ██   ██            ██ ██   ██ ██    ",
+                             "██    ███   ████████       ███     ███     "};
+
+            string[] titre2 = {"████████   ██   ██   █████   ██        ██████    ██████   ████████   ██████   ██████ ",
+                               "██          ██ ██    ██  ██  ██       ██    ██   ██  ██   ██         ██  ██   ██     ",
+                               "████         ███     █████   ██       ██    ██   █████    ████       █████    ██████ ",
+                               "██          ██ ██    ██      ██       ██    ██   ██  ██   ██         ██  ██       ██ ",
+                               "████████   ██   ██   ██      ███████   ██████    ██  ██   ████████   ██  ██   ██████ "};
+
+
+            ConsoleColor[] couleurs = {ConsoleColor.Black, ConsoleColor.DarkRed, ConsoleColor.DarkBlue,
+                                       ConsoleColor.DarkCyan, ConsoleColor.DarkGray, ConsoleColor.Gray};
+            for(int i = 30; i > 10; i--)
+            {
+                Console.ForegroundColor = couleurs[i%couleurs.Length];
+                int start =i;
+                foreach (string ligne in titre)
+                {
+                    AfficherTexteCentrer(ligne, start);
+                    start++;
+                }
+                start = i+8;
+                foreach (string ligne in titre2)
+                {
+                    AfficherTexteCentrer(ligne, start);
+                    start++;
+                }
+                System.Threading.Thread.Sleep(400);
+                Console.Clear();
+            }
+        }
+
+        private static void AfficherTexteCentrer(string ligne, int hauteur)
+        {
+            Console.SetCursorPosition((Console.WindowWidth-ligne.Length) /2, hauteur);
+            Console.Write(ligne);
         }
 
         // Fonction affichant le titre 
@@ -255,11 +294,24 @@ namespace Quarto
             DessinerBoite(64,85,29,31);
             AfficherTextRegulier(new string[] { "MERCI d'avoir joué" }, couleur, 30);
             Console.SetCursorPosition(0, 0);
-            System.Threading.Thread.Sleep(8000); // A voir si on laisse quitter 
+            AfficherChargement(40, 8);
+        }
+
+        private static void AfficherChargement(int hauteur, int duree)
+        {
+            Console.SetCursorPosition(70,hauteur+1);
+            Console.Write("Chargement");
+            for (int i = 0; i < duree; i++)
+            {
+                Console.SetCursorPosition(67+i,hauteur);
+                Console.Write(new string('═', i));
+                System.Threading.Thread.Sleep(1000);
+            }
+            
         }
 
         // Fonction de pause permettant de sauvegarder, quitter ou reprendre le jeux
-        internal static bool AfficherMenuPause(bool sauvegarde, int[,] plateau, int[] piecesJouables)
+        internal static bool AfficherMenuPause(bool sauvegarde, int[,] plateau, int[] piecesJouables, int tour)
         {
             
             bool pause = true;
@@ -282,7 +334,7 @@ namespace Quarto
                     else if (courant == 2 && sauvegarde == false) AfficherQuitter();
                     else if (courant == 1)
                     {
-                        Utilisables.SauvegarderPartie(plateau, piecesJouables);
+                        Utilisables.SauvegarderPartie(plateau, piecesJouables, tour);
                         sauvegarde = true;
                         string sauvegardeFaite = "Votre partie à bien été enregistrée";
                         string vide = new string(' ', sauvegardeFaite.Length);
@@ -485,7 +537,7 @@ namespace Quarto
             Console.Clear();
             AfficherQuarto();
             AfficherTextRegulier(new string[] { "Voulez vous commencer une nouvelle partie ou charger une partie en cours ?" }, new ConsoleColor[] {ConsoleColor.Black}, 20);
-            AfficherBouton(new string[] { "Nouvelle", "Charger" }, courant, 25);
+            AfficherBouton(new string[] { "1 Joueur","2 Joueurs", "Charger" }, courant, 25);
         }
 
         // Fonction permettant de choisir une partie enregistrée
@@ -501,10 +553,10 @@ namespace Quarto
                 AfficherCadre();
 
                 ConsoleColor[] noir = new ConsoleColor[] { ConsoleColor.Black };
-                AfficherTextRegulier(new string[] { "BIENVENU DANS L'INTERFACE DE CHARGEMENT DE QUARTO" }, noir, 3);
+                AfficherTextRegulier(new string[] { "BIENVENUE DANS L'INTERFACE DE CHARGEMENT DE QUARTO" }, noir, 3);
                 AfficherTextRegulier(new string[] { "Ici, vous pouvez selectionner un fichier" }, noir, 8);
                 AfficherTextRegulier(new string[] { "afin de reprendre une partie en cours" }, noir, 9);
-                AfficherTextRegulier(new string[] { "Les fichier sont enregistrés de la manière suivante:", "        PvO_JJ-MM-AA_HH-MM " }, new ConsoleColor[] { ConsoleColor.Black, ConsoleColor.DarkRed} , 12);
+                AfficherTextRegulier(new string[] { "Les fichiers sont enregistrés de la manière suivante:", "        PvO_JJ-MM-AA_HH-MM " }, new ConsoleColor[] { ConsoleColor.Black, ConsoleColor.DarkRed} , 12);
 
                 DessinerLigneH(6);
                 DessinerLigneH(11);
@@ -550,8 +602,8 @@ namespace Quarto
                     }
                     else
                     {
-                        AfficherTextRegulier(new string[] { "Vous ne disposez pas de fichier de sauvegardes" }, noir, 50);
-                        AfficherTextRegulier(new string[] { "Appuyer sur n'importequelle touche pour lancer une nouvelle partie" }, noir, 53);
+                        AfficherTextRegulier(new string[] { "Vous ne disposez pas de fichier de sauvegarde" }, noir, 50);
+                        AfficherTextRegulier(new string[] { "Appuyer sur n'importe quelle touche pour lancer une nouvelle partie" }, noir, 53);
                         Console.ReadKey();
                         break;
                     }
@@ -1094,6 +1146,20 @@ namespace Quarto
             // Quitter (2)
             Console.SetCursorPosition((Console.WindowWidth / 2 - quitter.Length) / 2, 55);
             Console.Write(quitter);
+        }
+
+        internal static void AfficherInfoTour(int tour, bool condition = false)
+        {
+            Console.SetCursorPosition(100, 2);
+            Console.Write("Tour en cours: " + (tour + 1));
+            Console.SetCursorPosition(100, 4);
+            if (condition && tour % 2 == 0) Console.Write("Tour du joueur 1");
+            else if (condition && tour % 2 == 1) Console.Write("Tour du joueur 2");
+            else if (!condition && tour % 2 == 0) Console.Write("Tour de l'ordinateur");
+            else Console.Write("Tour du joueur          ");
+
+        
+
         }
 
         private static void DessinerBoite(int x1, int x2, int y1, int y2)

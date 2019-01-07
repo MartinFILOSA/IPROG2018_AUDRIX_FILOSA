@@ -36,5 +36,70 @@ namespace Quarto
             piecesJouables[pieceChoisie] = -1;
             return pieceChoisie;
         }
+        
+        internal static int TrouverPos(int idPiece, int[,]plateau)
+        {
+            int x, y;
+            int position = -1;
+            for (int i = 0; i < 16; i++)
+            {
+                Utilisables.Pos2Coord(out x, out y, i);
+                if (plateau[x, y] == -1)
+                {
+                    plateau[x, y] = idPiece;
+                    if (Utilisables.TesterVictoire(idPiece, i, plateau))
+                    {
+                        position = i;
+                        break;
+                    }
+                    plateau[x, y] = -1;
+                }
+            }
+            if(position >= 0)
+            {
+                Utilisables.Pos2Coord(out x, out y, position);
+                plateau[x, y] = -1;
+            }
+            return position;
+        }
+    
+        internal static bool PoserPieceIA(out int position, int idPiece, int[,] plateau)
+        {
+            int x, y;
+            position = TrouverPos(idPiece, plateau);
+            if (position == -1) PoserPiece(out position, idPiece, plateau);
+            else
+            {
+                Utilisables.Pos2Coord(out x, out y, position);
+                plateau[x, y] = idPiece;
+                IHM.AfficherCaseOrdi(x, y);
+            }
+            return false;
+        }
+
+        internal static int ChoisirPieceIA(int[] piecesJouables, int[,] plateau)
+        {
+            int pieceChoisie = -1;
+            for(int i = 0; i < 16; i++)
+            {
+                if(piecesJouables[i] != -1)
+                {
+                    if (TrouverPos(i, plateau) == -1)
+                    {
+                        pieceChoisie = i;
+                        break;
+                    }
+                }
+            }
+            if (pieceChoisie == -1) pieceChoisie = ChoisirPiece(piecesJouables);
+            else
+            {
+                IHM.AfficherChoixOrdi(pieceChoisie);
+                piecesJouables[pieceChoisie] = -1;
+                Console.SetCursorPosition(100, 5);
+                Console.Write("Piece perdante");
+            }
+            return pieceChoisie;
+        }
     }
 }

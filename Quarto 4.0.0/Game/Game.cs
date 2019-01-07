@@ -16,6 +16,7 @@ namespace Quarto
             IHM.AfficherIntro();
 
             bool quitter = false;
+            int nvxOrdi = 0;
             int boutonCourantMenu_1 = 1;
             int boutonCourantMenu_2 = 0;
             string nomFichier = "../../Sauvegardes\\Z_NouvellePartie.txt";
@@ -58,63 +59,42 @@ namespace Quarto
                         {
                             case ConsoleKey.LeftArrow:
                             case ConsoleKey.UpArrow:
-                                boutonCourantMenu_2 = (boutonCourantMenu_2 -= 1) % 2;
+                                boutonCourantMenu_2 = (boutonCourantMenu_2 -= 1) % 3;
                                 break;
                             case ConsoleKey.RightArrow:
                             case ConsoleKey.DownArrow:
-                                boutonCourantMenu_2 = (boutonCourantMenu_2 += 1) % 2;
+                                boutonCourantMenu_2 = (boutonCourantMenu_2 += 1) % 3;
                                 break;
                             case ConsoleKey.Enter:
-                                if (boutonCourantMenu_2 == 0) etat = "JEUX";
+                                if (boutonCourantMenu_2 == 0) etat = "NVX_ORDI";
+                                else if (boutonCourantMenu_2 == 1) etat = "JEUX_2";
                                 else etat = "CHOIX_PARTIE";
                                 break;
+                            case ConsoleKey.Backspace:
+                                etat = "MENU_1";
+                                break;
                         }
-                        if (boutonCourantMenu_2 < 0) boutonCourantMenu_2 = Math.Abs(boutonCourantMenu_2 + 2);
+                        if (boutonCourantMenu_2 < 0) boutonCourantMenu_2 = Math.Abs(boutonCourantMenu_2 + 3);
                         break;
                     case "CHOIX_PARTIE":
                         nomFichier = IHM.AfficherPageChargement();
+                        if (nomFichier.Contains("PvO")) etat = "JEUX";
+                        etat = "JEUX_2";
+                        break;
+                    case "NVX_ORDI":
+                        //nvxOrdi = IHM_choix nvx
                         etat = "JEUX";
                         break;
-                    case "JEUX":
-                        Utilisables.InitialiserPartie(nomFichier, ref plateau, ref piecesJouables);
+                    case "JEUX_2":
+                        int tour = Utilisables.InitialiserPartie(nomFichier, ref plateau, ref piecesJouables);
                         IHM.InitialiserEcranJeux();
-
-                        int caseCourante = -1;
-                        int pieceCourante = -1;
-                        IHM.AfficherEcranJeux(plateau, piecesJouables, caseCourante, pieceCourante);
-                        int tour = 0;
-                        bool gagner = false;
-                        //============================================================================================================
-                        //                           Départ de la Boucle de jeux pour un Player vs Ordi
-                        //============================================================================================================
-                        bool sauvegarde = false;
-                        int[] piecesVides = new int[] { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 };
-                        while (!gagner)
-                        {
-                            if (piecesJouables.SequenceEqual(piecesVides)) IHM.AfficherEgalite();
-                            // Tour de l'ordinateur
-                            if (tour % 2 == 0)
-                            {
-                                int idPiece = Utilisables.ChoisirPiece(piecesJouables, sauvegarde, plateau);
-                                IHM.AfficherEcranJeux(piecesJouables);
-                                sauvegarde = IA.PoserPiece(out int position, idPiece, plateau);
-                                IHM.AfficherEcranJeux(plateau);
-                                gagner = Utilisables.TesterVictoire(idPiece, position, plateau);
-                                if (gagner) etat = "PERDU";
-                            }
-                            // Tour du joueur
-                            else
-                            {
-                                int idPiece = IA.ChoisirPiece(piecesJouables);
-                                sauvegarde = false;
-                                IHM.AfficherEcranJeux(piecesJouables);
-                                sauvegarde = Utilisables.PoserPiece(out int position, idPiece, plateau, sauvegarde, piecesJouables);
-                                IHM.AfficherEcranJeux(plateau);
-                                gagner = Utilisables.TesterVictoire(idPiece, position, plateau);
-                                if(gagner) etat = "GAGNER";
-                            }
-                            tour++;
-                        }
+                        etat = Utilisables.JeuxJvJ(plateau, piecesJouables, tour);
+                        break;
+                    case "JEUX":
+                        tour = Utilisables.InitialiserPartie(nomFichier, ref plateau, ref piecesJouables);
+                        //Select computer lvl
+                        IHM.InitialiserEcranJeux();
+                        etat = Utilisables.JeuxJvO(plateau, piecesJouables, tour);
                         break;
                     case "GAGNER":
                         IHM.AfficherEcranVictoire(true);
