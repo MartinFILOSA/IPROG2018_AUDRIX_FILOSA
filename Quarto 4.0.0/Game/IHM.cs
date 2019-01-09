@@ -73,6 +73,107 @@ namespace Quarto
             return piecesRep;
         }
 
+        internal static int ChoixNiveau()
+        {
+            bool choix = false;
+            int niveaux = 0;
+            Console.Clear();
+            AfficherQuarto();
+
+            string[] debutant = { "████████     ████████   ██████    ██    ██   ██████████   ██████    ██    ██   ██████████",
+                                  "██     ██    ██         ██   ██   ██    ██       ██      ██    ██   ████  ██       ██    ",
+                                  "██     ██    █████      ██████    ██    ██       ██      ████████   ██ ██ ██       ██    ",
+                                  "██     ██    ██         ██   ██   ██    ██       ██      ██    ██   ██  ████       ██    ",
+                                  "████████     ████████   ██████     ██████        ██      ██    ██   ██    ██       ██    "};
+
+            string[] facile = { "████████    ██████    ████████    ████████    ██        ███████",
+                                "██         ██    ██   ██             ██       ██        ██     ",
+                                "████       ████████   ██             ██       ██        █████  ",
+                                "██         ██    ██   ██             ██       ██        ██     ",
+                                "██         ██    ██   ████████    ████████    ███████   ███████"};
+
+            string[] moyen  = { "███    ███   ████████    ███     ███   ████████   ██    ██",
+                                "████  ████   ██    ██      ██   ██     ██         ████  ██",
+                                "██  ██  ██   ██    ██       ████       █████      ██ ██ ██",
+                                "██      ██   ██    ██      ███         ██         ██  ████",
+                                "██      ██   ████████     ███          ████████   ██    ██" };
+
+            string[] difficile = { "████████   ████████  ████████   ████████   ████████   ████████    ████████    ██        ███████",
+                                   "██     ██     ██     ██         ██            ██      ██             ██       ██        ██     ",
+                                   "██     ██     ██     ████       ████          ██      ██             ██       ██        █████  ",
+                                   "██     ██     ██     ██         ██            ██      ██             ██       ██        ██     ",
+                                   "████████   ████████  ██         ██         ████████   ████████    ████████    ███████   ███████"};
+
+            int hauteur = 30;
+            foreach (string ligne in debutant)
+            {
+                AfficherTexteCentrer(ligne, hauteur);
+                hauteur++;
+            }
+
+            while (!choix)
+            {
+
+                System.ConsoleKeyInfo Bouton = Console.ReadKey();
+                switch (Bouton.Key)
+                {
+                    case ConsoleKey.UpArrow:
+                        niveaux = (niveaux + 1 )% 4;
+                        break;
+                    case ConsoleKey.DownArrow:
+                        niveaux = (niveaux - 1) % 4;
+                        break;
+                    case ConsoleKey.Enter:
+                        choix = true;
+                        break;
+                }
+                if (niveaux < 0) niveaux += 4;
+                Console.SetCursorPosition(75, 45);
+                hauteur = 30;
+                switch (niveaux)
+                {
+                    case 0:
+                        Console.Clear();
+                        AfficherQuarto();
+                        foreach(string ligne in debutant)
+                        {
+                            AfficherTexteCentrer(ligne, hauteur);
+                            hauteur++;
+                        }
+                        break;
+                    case 1:
+                        Console.Clear();
+                        AfficherQuarto();
+                        foreach (string ligne in facile)
+                        {
+                            AfficherTexteCentrer(ligne, hauteur);
+                            hauteur++;
+                        }
+                        break;
+                    case 2:
+                        Console.Clear();
+                        AfficherQuarto();
+                        foreach (string ligne in moyen)
+                        {
+                            AfficherTexteCentrer(ligne, hauteur);
+                            hauteur++;
+                        }
+                        break;
+                    case 3:
+                        Console.Clear();
+                        AfficherQuarto();
+                        foreach (string ligne in difficile)
+                        {
+                            AfficherTexteCentrer(ligne, hauteur);
+                            hauteur++;
+                        }
+                        break;
+
+                }
+            }
+            return niveaux;
+        }
+
         internal static bool AfficherRejouer()
         {
             Console.Clear();

@@ -82,7 +82,10 @@ namespace Quarto
                         etat = "JEUX_2";
                         break;
                     case "NVX_ORDI":
-                        //nvxOrdi = IHM_choix nvx
+                        nvxOrdi = IHM.ChoixNiveau();
+                        Console.Clear();
+                        Console.Write(nvxOrdi);
+                        Console.Read();
                         etat = "JEUX";
                         break;
                     case "JEUX_2":
