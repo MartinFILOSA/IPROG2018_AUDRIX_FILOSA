@@ -104,7 +104,16 @@ namespace Quarto
                                    "██     ██     ██     ██         ██            ██      ██             ██       ██        ██     ",
                                    "████████   ████████  ██         ██         ████████   ████████    ████████    ███████   ███████"};
 
-            int hauteur = 30;
+            string[] flecheH = {"    ██    ",
+                                "  ██  ██  ",
+                                "██      ██"};
+
+            string[] flecheB = {"██      ██",
+                                "  ██  ██  ",
+                                "    ██    "};
+
+
+            int hauteur = 31;
             foreach (string ligne in debutant)
             {
                 AfficherTexteCentrer(ligne, hauteur);
@@ -113,12 +122,64 @@ namespace Quarto
 
             while (!choix)
             {
-
+                Console.Clear();
+                AfficherQuarto();
+                hauteur = 26;
+                Console.ForegroundColor = ConsoleColor.DarkGray;
+                foreach(string ligne in flecheH)
+                {
+                    AfficherTexteCentrer(ligne, hauteur);
+                    hauteur++;
+                }
+                hauteur = 38;
+                foreach (string ligne in flecheB)
+                {
+                    AfficherTexteCentrer(ligne, hauteur);
+                    hauteur++;
+                }
+                Console.ForegroundColor = ConsoleColor.Black;
+                AfficherTexteCentrer("Utiliser les flèches haut et bas pour modifier le niveaux", 22);
+                AfficherTexteCentrer("Veuillez selectionner un niveau pour l'ordinateur", 43);
+                AfficherTexteCentrer("Appuyer sur entrer pour selectionner le niveaux", 44);
+                hauteur = 31;
+                switch (niveaux)
+                {
+                    case 0:
+                        
+                        foreach (string ligne in debutant)
+                        {
+                            AfficherTexteCentrer(ligne, hauteur);
+                            hauteur++;
+                        }
+                        break;
+                    case 1:
+                        foreach (string ligne in facile)
+                        {
+                            AfficherTexteCentrer(ligne, hauteur);
+                            hauteur++;
+                        }
+                        break;
+                    case 2:
+                        foreach (string ligne in moyen)
+                        {
+                            AfficherTexteCentrer(ligne, hauteur);
+                            hauteur++;
+                        }
+                        break;
+                    case 3:
+                        foreach (string ligne in difficile)
+                        {
+                            AfficherTexteCentrer(ligne, hauteur);
+                            hauteur++;
+                        }
+                        break;
+                }
+                Console.ForegroundColor = ConsoleColor.Black;
                 System.ConsoleKeyInfo Bouton = Console.ReadKey();
                 switch (Bouton.Key)
                 {
                     case ConsoleKey.UpArrow:
-                        niveaux = (niveaux + 1 )% 4;
+                        niveaux = (niveaux + 1) % 4;
                         break;
                     case ConsoleKey.DownArrow:
                         niveaux = (niveaux - 1) % 4;
@@ -128,48 +189,6 @@ namespace Quarto
                         break;
                 }
                 if (niveaux < 0) niveaux += 4;
-                Console.SetCursorPosition(75, 45);
-                hauteur = 30;
-                switch (niveaux)
-                {
-                    case 0:
-                        Console.Clear();
-                        AfficherQuarto();
-                        foreach(string ligne in debutant)
-                        {
-                            AfficherTexteCentrer(ligne, hauteur);
-                            hauteur++;
-                        }
-                        break;
-                    case 1:
-                        Console.Clear();
-                        AfficherQuarto();
-                        foreach (string ligne in facile)
-                        {
-                            AfficherTexteCentrer(ligne, hauteur);
-                            hauteur++;
-                        }
-                        break;
-                    case 2:
-                        Console.Clear();
-                        AfficherQuarto();
-                        foreach (string ligne in moyen)
-                        {
-                            AfficherTexteCentrer(ligne, hauteur);
-                            hauteur++;
-                        }
-                        break;
-                    case 3:
-                        Console.Clear();
-                        AfficherQuarto();
-                        foreach (string ligne in difficile)
-                        {
-                            AfficherTexteCentrer(ligne, hauteur);
-                            hauteur++;
-                        }
-                        break;
-
-                }
             }
             return niveaux;
         }

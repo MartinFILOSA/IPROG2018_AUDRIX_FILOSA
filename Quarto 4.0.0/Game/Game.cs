@@ -11,9 +11,8 @@ namespace Quarto
             int[,] plateau = new int[4, 4]; // variable représentant l'état du plateu de jeux pendant la partie
             int[] piecesJouables = new int[16]; // variable contenant l'identifiant des pieces encore disponibles
             string etat = "MENU_1";
-
             IHM.InitialiserGraphiques();
-            IHM.AfficherIntro();
+            //IHM.AfficherIntro();
 
             bool quitter = false;
             int nvxOrdi = 0;
@@ -79,7 +78,7 @@ namespace Quarto
                     case "CHOIX_PARTIE":
                         nomFichier = IHM.AfficherPageChargement();
                         if (nomFichier.Contains("PvO")) etat = "JEUX";
-                        etat = "JEUX_2";
+                        else etat = "JEUX_2";
                         break;
                     case "NVX_ORDI":
                         nvxOrdi = IHM.ChoixNiveau();

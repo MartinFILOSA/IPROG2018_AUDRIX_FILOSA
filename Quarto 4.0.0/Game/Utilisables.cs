@@ -58,18 +58,23 @@ namespace Quarto
                 System.ConsoleKeyInfo mouvement = Console.ReadKey();
                 switch (mouvement.Key)
                 {
+                    case ConsoleKey.Q:
                     case ConsoleKey.LeftArrow:
                         colonneCourante = (colonneCourante -= 1) % 4;
                         break;
+                    case ConsoleKey.D:
                     case ConsoleKey.RightArrow:
                         colonneCourante = (colonneCourante += 1) % 4;
                         break;
+                    case ConsoleKey.Z:
                     case ConsoleKey.UpArrow:
                         ligneCourante = (ligneCourante -= 1) % 4;
                         break;
                     case ConsoleKey.DownArrow:
+                    case ConsoleKey.S:
                         ligneCourante = (ligneCourante += 1) % 4;
                         break;
+                    case ConsoleKey.Spacebar:
                     case ConsoleKey.Enter:
                         if (piecesJouables[pieceCourante] != -1)
                         {
@@ -126,18 +131,23 @@ namespace Quarto
                 System.ConsoleKeyInfo mouvement = Console.ReadKey();
                 switch (mouvement.Key)
                 {
+                    case ConsoleKey.Q:
                     case ConsoleKey.LeftArrow:
                         colonneCourante = (colonneCourante -= 1) % 4;
                         break;
+                    case ConsoleKey.D:
                     case ConsoleKey.RightArrow:
                         colonneCourante = (colonneCourante += 1) % 4;
                         break;
+                    case ConsoleKey.Z:
                     case ConsoleKey.UpArrow:
                         ligneCourante = (ligneCourante -= 1) % 4;
                         break;
+                    case ConsoleKey.S:
                     case ConsoleKey.DownArrow:
                         ligneCourante = (ligneCourante += 1) % 4;
                         break;
+                    case ConsoleKey.Spacebar:
                     case ConsoleKey.Enter:
                         if(plateau[ligneCourante, colonneCourante] == -1)
                         {
