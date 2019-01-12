@@ -81,28 +81,28 @@ namespace Quarto
             AfficherQuarto();
 
             string[] debutant = { "████████     ████████   ██████    ██    ██   ██████████   ██████    ██    ██   ██████████",
-                                  "██     ██    ██         ██   ██   ██    ██       ██      ██    ██   ████  ██       ██    ",
-                                  "██     ██    █████      ██████    ██    ██       ██      ████████   ██ ██ ██       ██    ",
-                                  "██     ██    ██         ██   ██   ██    ██       ██      ██    ██   ██  ████       ██    ",
-                                  "████████     ████████   ██████     ██████        ██      ██    ██   ██    ██       ██    "};
+                                  "██▒    ██▒   ██▒        ██▒  ██   ██▒   ██▒      ██▒     ██▒   ██   ████  ██▒      ██▒   ",
+                                  "██▒    ██▒   █████▒     ██████▒   ██▒   ██▒      ██▒     ████████▒  ██▒██ ██▒      ██▒   ",
+                                  "██▒    ██▒   ██▒        ██▒  ██   ██▒   ██▒      ██▒     ██▒   ██▒  ██▒ ████▒      ██▒   ",
+                                  "████████▒    ████████▒  ██████▒    ██████▒       ██▒     ██▒   ██▒  ██▒   ██▒      ██▒   "};
 
-            string[] facile = { "████████    ██████    ████████    ████████    ██        ███████",
-                                "██         ██    ██   ██             ██       ██        ██     ",
-                                "████       ████████   ██             ██       ██        █████  ",
-                                "██         ██    ██   ██             ██       ██        ██     ",
-                                "██         ██    ██   ████████    ████████    ███████   ███████"};
+            string[] facile = { "████████    ██████    ████████    ████████    ██        ███████ ",
+                                "██▒        ██▒   ██   ██▒            ██▒      ██        ██▒     ",
+                                "████       ████████▒  ██▒            ██▒      ██        █████▒  ",
+                                "██▒        ██▒   ██▒  ██▒            ██▒      ██        ██▒     ",
+                                "██▒        ██▒   ██▒  ████████▒   ████████▒   ███████▒  ███████▒"};
 
-            string[] moyen  = { "███    ███   ████████    ███     ███   ████████   ██    ██",
-                                "████  ████   ██    ██      ██   ██     ██         ████  ██",
-                                "██  ██  ██   ██    ██       ████       █████      ██ ██ ██",
-                                "██      ██   ██    ██      ███         ██         ██  ████",
-                                "██      ██   ████████     ███          ████████   ██    ██" };
+            string[] moyen  = { "███    ███   ████████    ███     ███   ████████   ██    ██ ",
+                                "████  ████▒  ██▒   ██      ██   ██▒    ██▒        ████  ██▒",
+                                "██▒▒██▒▒██▒  ██▒   ██▒      ████▒      █████▒     ██▒██ ██▒",
+                                "██▒     ██▒  ██▒   ██▒     ███▒        ██▒        ██▒ ████▒",
+                                "██▒     ██▒  ████████▒    ███▒         ████████▒  ██▒   ██▒" };
 
-            string[] difficile = { "████████   ████████  ████████   ████████   ████████   ████████    ████████    ██        ███████",
-                                   "██     ██     ██     ██         ██            ██      ██             ██       ██        ██     ",
-                                   "██     ██     ██     ████       ████          ██      ██             ██       ██        █████  ",
-                                   "██     ██     ██     ██         ██            ██      ██             ██       ██        ██     ",
-                                   "████████   ████████  ██         ██         ████████   ████████    ████████    ███████   ███████"};
+            string[] difficile = { "████████   ████████  ████████   ████████   ████████   ████████    ████████    ██        ███████ ",
+                                   "██▒    ██▒    ██▒    ██▒        ██▒           ██▒     ██▒            ██▒      ██        ██▒     ",
+                                   "██▒    ██▒    ██▒    ████       ████          ██▒     ██▒            ██▒      ██        █████▒  ",
+                                   "██▒    ██▒    ██▒    ██▒        ██▒           ██▒     ██▒            ██▒      ██        ██▒     ",
+                                   "████████▒  ████████▒ ██▒        ██▒        ████████▒  ████████▒   ████████▒   ███████▒  ███████▒"};
 
             string[] flecheH = {"    ██    ",
                                 "  ██  ██  ",
@@ -431,7 +431,7 @@ namespace Quarto
         }
 
         // Fonction de pause permettant de sauvegarder, quitter ou reprendre le jeux
-        internal static bool AfficherMenuPause(bool sauvegarde, int[,] plateau, int[] piecesJouables, int tour)
+        internal static bool AfficherMenuPause(bool sauvegarde, int[,] plateau, int[] piecesJouables, int tour, bool type)
         {
             
             bool pause = true;
@@ -454,7 +454,7 @@ namespace Quarto
                     else if (courant == 2 && sauvegarde == false) AfficherQuitter();
                     else if (courant == 1)
                     {
-                        Utilisables.SauvegarderPartie(plateau, piecesJouables, tour);
+                        Utilisables.SauvegarderPartie(plateau, piecesJouables, tour, type);
                         sauvegarde = true;
                         string sauvegardeFaite = "Votre partie à bien été enregistrée";
                         string vide = new string(' ', sauvegardeFaite.Length);
@@ -509,7 +509,7 @@ namespace Quarto
             }
         }
 
-        internal static void AfficherQuitter(int[,] plateau, int[] piecesJouables, int caseCourante = -1, int pieceCourante = -1, int idPiece = -1)
+        internal static void AfficherQuitter(int[,] plateau, int[] piecesJouables, string[] piecesRep, int caseCourante = -1, int pieceCourante = -1, int idPiece = -1)
         {
             Console.BackgroundColor = ConsoleColor.White;
             bool sur = false;
@@ -535,8 +535,8 @@ namespace Quarto
             }
             Console.Clear();
             InitialiserEcranJeux();
-            AfficherChoixOrdi(idPiece);
-            AfficherEcranJeux(plateau, piecesJouables, caseCourante, pieceCourante);
+            AfficherChoixOrdi(idPiece, piecesRep);
+            AfficherEcranJeux(plateau, piecesJouables, piecesRep, caseCourante, pieceCourante);
         }
 
         // Fonction permettant d'afficher l'écran de menu
@@ -754,24 +754,24 @@ namespace Quarto
         }
 
         // Fonction permettant l'affichage du plateu des pieces ou des deux
-        internal static void AfficherEcranJeux(int[,] plateau, int caseCourante = -1)
+        internal static void AfficherEcranJeux(int[,] plateau, string[] piecesRep, int caseCourante = -1)
         {
-            AfficherPlateau(plateau, caseCourante);
+            AfficherPlateau(plateau, piecesRep, caseCourante);
         }
 
-        internal static void AfficherEcranJeux(int[] piecesJouables, int pieceCourante = -1)
+        internal static void AfficherEcranJeux(int[] piecesJouables, string[] piecesRep, int pieceCourante = -1)
         {
-            AfficherPiecesJouables(piecesJouables, pieceCourante);
+            AfficherPiecesJouables(piecesJouables, piecesRep, pieceCourante);
         }
 
-        internal static void AfficherEcranJeux(int[,] plateau, int[] piecesJouables, int caseCourante = -1, int pieceCourante = -1)
+        internal static void AfficherEcranJeux(int[,] plateau, int[] piecesJouables, string[] piecesRep, int caseCourante = -1, int pieceCourante = -1)
         {
-            AfficherPiecesJouables(piecesJouables, pieceCourante);
-            AfficherPlateau(plateau, caseCourante);
+            AfficherPiecesJouables(piecesJouables, piecesRep, pieceCourante);
+            AfficherPlateau(plateau, piecesRep, caseCourante);
         }
 
         // Fonction permettant d'afficher les pieces encore disponibles
-        private static void AfficherPiecesJouables(int[] piecesJouables, int pieceCourante = -1)
+        private static void AfficherPiecesJouables(int[] piecesJouables, string[] piecesRep, int pieceCourante = -1)
         {
             // Les valeurs permettant de placer les emplacements de pieces à l'écran
             int[] piecesX = new int[] { 92, 104, 116, 128 };
@@ -785,7 +785,7 @@ namespace Quarto
                 if (piecesJouables[i] >= 0)
                 {
                     Utilisables.Pos2Coord(out y, out x, piecesJouables[i]);
-                    DessinerPiece(piecesX[x], piecesY[y], piecesJouables[i], estCourante);
+                    DessinerPiece(piecesX[x], piecesY[y], piecesJouables[i],piecesRep ,estCourante);
                 }
                 else
                 {
@@ -796,7 +796,7 @@ namespace Quarto
         }
 
         // Fonction permettant d'afficher le plateau de jeu
-        private static void AfficherPlateau(int[,] plateau, int courant = -1)
+        private static void AfficherPlateau(int[,] plateau, string[] piecesRep, int courant = -1)
         {
             int[] casesX = new int[] { 10, 24, 38, 52};
             int[] casesY = new int[] { 5, 13, 21, 29};
@@ -807,7 +807,7 @@ namespace Quarto
                     bool estCourante = false;
                     if (Utilisables.Coor2Pos(j, i) == courant) estCourante = true;
                     if (plateau[j, i] == -1) DessinerCase(casesX[i], casesY[j], estCourante);
-                    else DessinerCase(casesX[i], casesY[j], plateau[j, i], estCourante);
+                    else DessinerCase(casesX[i], casesY[j], plateau[j, i], piecesRep, estCourante);
                 }
         }
 
@@ -827,7 +827,7 @@ namespace Quarto
 
         }
 
-        private static void DessinerCase(int x, int y, int pieceId, bool estCourante = false)
+        private static void DessinerCase(int x, int y, int pieceId, string[] piecesRep, bool estCourante = false)
         {
             ConsoleColor vide = ConsoleColor.White;
             ConsoleColor caseCourante = ConsoleColor.DarkGray;
@@ -839,13 +839,12 @@ namespace Quarto
                 Console.SetCursorPosition(x, i);
                 Console.Write(caseVide);
             }
-            DessinerPiece(x + 4, y + 5, pieceId);
+            DessinerPiece(x + 4, y + 5, pieceId, piecesRep);
         }
 
         // Fonction permettant d'afficher une pièce réferencée par son id n'importe ou sur l'écran
-        private static void DessinerPiece(int x, int y, int id, bool estCourante = false)
+        private static void DessinerPiece(int x, int y, int id, string[]piecesRep, bool estCourante = false)
         {
-            string[] piecesRep = CreerPiecesGraphique(); // Peut être améliorer: création unique ??
             if(id >= 0)
             {
                 string[] lignes = piecesRep[id].Split('-');
@@ -1268,18 +1267,32 @@ namespace Quarto
             Console.Write(quitter);
         }
 
-        internal static void AfficherInfoTour(int tour, bool condition = false)
+        internal static void AfficherInfoTour(int tour, bool condition = false, int niveaux = -1)
         {
-            Console.SetCursorPosition(100, 2);
+            Console.SetCursorPosition(95, 2);
+            Console.Write("Info sur le tour en cour:");
+            Console.SetCursorPosition(80, 4);
             Console.Write("Tour en cours: " + (tour + 1));
-            Console.SetCursorPosition(100, 4);
+            Console.SetCursorPosition(115, 4);
+            if (condition) Console.Write("Vous êtes en mode deux joueur");
+            else
+            {
+                Console.Write("Vous jouez contre l'ordinateur");
+                Console.SetCursorPosition(115, 7);
+                if( niveaux != -1)
+                {
+                    Console.Write("L'ordinateur est en mode: ");
+                    if (niveaux == 0) Console.Write("Débutant");
+                    else if (niveaux == 1) Console.Write("Facile");
+                    else if (niveaux == 2) Console.Write("Moyen");
+                    else Console.Write("Difficile");
+                }
+            }
+            Console.SetCursorPosition(80, 7);
             if (condition && tour % 2 == 0) Console.Write("Tour du joueur 1");
             else if (condition && tour % 2 == 1) Console.Write("Tour du joueur 2");
             else if (!condition && tour % 2 == 0) Console.Write("Tour de l'ordinateur");
             else Console.Write("Tour du joueur          ");
-
-        
-
         }
 
         private static void DessinerBoite(int x1, int x2, int y1, int y2)
@@ -1345,11 +1358,32 @@ namespace Quarto
             }
         }
 
+        internal static void AfficherConseil(int ordre)
+        {
+            Console.BackgroundColor = ConsoleColor.Black;
+            Console.ForegroundColor = ConsoleColor.White;
+            string[] conseils = { "   A vous de choisir un pièce  ",
+                                  " L'ordi vous à choisi une pièce",
+                                  "  Le joueur 2 choisi une pièce ",
+                                  "  Le joueur 1 choisi une pièce ",
+                                  " Au joueur 1 de poser sa pièce ",
+                                  " Au joueur 2 de poser sa pièce ",
+                                  "                               "};
+
+            int debut = (75 - conseils[ordre].Length) / 2;
+            DessinerBoite(debut - 1, debut + 2 + conseils[ordre].Length, 39, 41);
+            Console.SetCursorPosition(debut,40);
+            Console.Write(conseils[ordre]);
+            Console.SetCursorPosition(debut - 1, 39);
+            Console.ForegroundColor = ConsoleColor.Black;
+            Console.BackgroundColor = ConsoleColor.White;
+        }
+
         // Fonction permettant de montrer la pièce choisie par l'ordinateur
-        internal static void AfficherChoixOrdi(int pieceChoisie)
+        internal static void AfficherChoixOrdi(int pieceChoisie, string[] piecesRep)
         {
             DessinerCase(30, 45);
-            DessinerPiece(34, 50, pieceChoisie);
+            DessinerPiece(34, 50, pieceChoisie, piecesRep);
         }
 
         internal static void EffacerChoixOrdi()

@@ -25,19 +25,19 @@ namespace Quarto
             return false;
         }
 
-        internal static int ChoisirPiece(int[] piecesJouables)
+        internal static int ChoisirPiece(int[] piecesJouables, string[] piecesRep)
         {
             int pieceChoisie = rn.Next(0, 16);
             while(piecesJouables[pieceChoisie] == -1)
             {
                 pieceChoisie = rn.Next(0, 16);
             }
-            IHM.AfficherChoixOrdi(pieceChoisie);
+            IHM.AfficherChoixOrdi(pieceChoisie, piecesRep);
             piecesJouables[pieceChoisie] = -1;
             return pieceChoisie;
         }
         
-        internal static int TrouverPos(int idPiece, int[,]plateau)
+        internal static int TrouverPos(int idPiece, int[,]plateau, int[][] piecesCalcul)
         {
             int x, y;
             int position = -1;
@@ -47,7 +47,7 @@ namespace Quarto
                 if (plateau[x, y] == -1)
                 {
                     plateau[x, y] = idPiece;
-                    if (Utilisables.TesterVictoire(idPiece, i, plateau))
+                    if (Utilisables.TesterVictoire(idPiece, i, plateau, piecesCalcul))
                     {
                         position = i;
                         break;
@@ -63,10 +63,10 @@ namespace Quarto
             return position;
         }
     
-        internal static bool PoserPieceIA(out int position, int idPiece, int[,] plateau)
+        internal static bool PoserPieceIA(out int position, int idPiece, int[,] plateau, int[][] piecesCalcul)
         {
             int x, y;
-            position = TrouverPos(idPiece, plateau);
+            position = TrouverPos(idPiece, plateau, piecesCalcul);
             if (position == -1) PoserPiece(out position, idPiece, plateau);
             else
             {
@@ -77,27 +77,25 @@ namespace Quarto
             return false;
         }
 
-        internal static int ChoisirPieceIA(int[] piecesJouables, int[,] plateau)
+        internal static int ChoisirPieceIA(int[] piecesJouables, int[,] plateau, int[][] piecesCalcul, string[] piecesRep)
         {
             int pieceChoisie = -1;
             for(int i = 0; i < 16; i++)
             {
                 if(piecesJouables[i] != -1)
                 {
-                    if (TrouverPos(i, plateau) == -1)
+                    if (TrouverPos(i, plateau, piecesCalcul) == -1)
                     {
                         pieceChoisie = i;
                         break;
                     }
                 }
             }
-            if (pieceChoisie == -1) pieceChoisie = ChoisirPiece(piecesJouables);
+            if (pieceChoisie == -1) pieceChoisie = ChoisirPiece(piecesJouables, piecesRep);
             else
             {
-                IHM.AfficherChoixOrdi(pieceChoisie);
+                IHM.AfficherChoixOrdi(pieceChoisie, piecesRep);
                 piecesJouables[pieceChoisie] = -1;
-                Console.SetCursorPosition(100, 5);
-                Console.Write("Piece perdante");
             }
             return pieceChoisie;
         }

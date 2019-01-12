@@ -40,7 +40,7 @@ namespace Quarto
             return position;
         }
 
-        internal static int ChoisirPiece(int[] piecesJouables, bool sauvegarde, int[,] plateau, int tour)
+        internal static int ChoisirPiece(int[] piecesJouables, bool sauvegarde, int[,] plateau, int tour, bool type, string[] piecesRep)
         {
             bool choix = false;
             int indice = -1;
@@ -51,7 +51,7 @@ namespace Quarto
                 if (piecesJouables[pieceCourante] < 0) pieceCourante++;
             }
             Pos2Coord(out int ligneCourante, out int colonneCourante, pieceCourante);
-            IHM.AfficherEcranJeux(piecesJouables, pieceCourante);
+            IHM.AfficherEcranJeux(piecesJouables, piecesRep, pieceCourante);
             while (!choix)
             {
                 bool pause = false;
@@ -84,12 +84,12 @@ namespace Quarto
                         }
                         break;
                     case ConsoleKey.P:
-                        sauvegarde = IHM.AfficherMenuPause(sauvegarde, plateau, piecesJouables, tour);
+                        sauvegarde = IHM.AfficherMenuPause(sauvegarde, plateau, piecesJouables, tour, type);
                         pause = true;
                         break;
                     case ConsoleKey.Escape:
                         if (sauvegarde) Environment.Exit(0);
-                        else IHM.AfficherQuitter(plateau, piecesJouables, -1, pieceCourante);
+                        else IHM.AfficherQuitter(plateau, piecesJouables,piecesRep, -1, pieceCourante);
                         break;
                 }
 
@@ -99,16 +99,16 @@ namespace Quarto
                 //if(piecesJouables[pieceCourante] >= 0) 
                 if (pause)
                 {
-                    IHM.AfficherEcranJeux(plateau, piecesJouables, -1, pieceCourante);
+                    IHM.AfficherEcranJeux(plateau, piecesJouables, piecesRep, -1, pieceCourante);
                     IHM.AfficherInfoTour(tour);
                 }
-                else IHM.AfficherEcranJeux(piecesJouables, pieceCourante);
+                else IHM.AfficherEcranJeux(piecesJouables, piecesRep, pieceCourante);
 
             }
             return pieceCourante;
         }
 
-        internal static bool PoserPiece(out int position, int idPiece, int[,] plateau, bool sauvegarde, int[] piecesJouables, int tour)
+        internal static bool PoserPiece(out int position, int idPiece, int[,] plateau, bool sauvegarde, int[] piecesJouables, int tour, bool type, string[] piecesRep)
         {
             bool choix = false;
             int caseCourante = 0;
@@ -124,7 +124,7 @@ namespace Quarto
             Pos2Coord(out int ligneCourante, out int colonneCourante, caseCourante);
 
 
-            IHM.AfficherEcranJeux(plateau, caseCourante);
+            IHM.AfficherEcranJeux(plateau, piecesRep, caseCourante);
             while (!choix)
             {
                 bool pause = false;
@@ -158,12 +158,12 @@ namespace Quarto
                         }
                         break;
                     case ConsoleKey.P:
-                        sauvegarde = IHM.AfficherMenuPause(sauvegarde, plateau, piecesJouables, tour);
+                        sauvegarde = IHM.AfficherMenuPause(sauvegarde, plateau, piecesJouables, tour, type);
                         pause = true;
                         break;
                     case ConsoleKey.Escape:
                         if (sauvegarde) Environment.Exit(0);
-                        else IHM.AfficherQuitter(plateau, piecesJouables, caseCourante, -1, idPiece);
+                        else IHM.AfficherQuitter(plateau, piecesJouables, piecesRep, caseCourante, -1, idPiece);
                         break;
                 }
 
@@ -173,21 +173,22 @@ namespace Quarto
 
                 if (pause)
                 {
-                    IHM.AfficherEcranJeux(plateau, piecesJouables, caseCourante);
-                    IHM.AfficherChoixOrdi(idPiece);
+                    IHM.AfficherEcranJeux(plateau, piecesJouables, piecesRep, caseCourante);
+                    IHM.AfficherChoixOrdi(idPiece, piecesRep);
                     IHM.AfficherInfoTour(tour);
                 }
-                else IHM.AfficherEcranJeux(plateau, caseCourante);
+                else IHM.AfficherEcranJeux(plateau, piecesRep, caseCourante);
             }
             position = caseCourante;
             return sauvegarde;
         }
 
-        internal static string JeuxJvO(int[,] plateau, int[] piecesJouables, int tour)
+        internal static string JeuxJvO(int[,] plateau, int[] piecesJouables, int tour, int[][] piecesCalcul, int niveaux, string[] piecesRep)
         {
+            bool type = true;
             int caseCourante = -1;
             int pieceCourante = -1;
-            IHM.AfficherEcranJeux(plateau, piecesJouables, caseCourante, pieceCourante);
+            IHM.AfficherEcranJeux(plateau, piecesJouables, piecesRep, caseCourante, pieceCourante);
             string etat = "JEUX";
             bool gagner = false;
             //============================================================================================================
@@ -198,26 +199,30 @@ namespace Quarto
             while (!gagner)
             {
                 if (piecesJouables.SequenceEqual(piecesVides)) IHM.AfficherEgalite();
-                IHM.AfficherInfoTour(tour, false);
+                IHM.AfficherInfoTour(tour, false, niveaux);
                 // Tour de l'ordinateur
                 if (tour % 2 == 0)
                 {
-                    int idPiece =ChoisirPiece(piecesJouables, sauvegarde, plateau, tour);
-                    IHM.AfficherEcranJeux(piecesJouables);
-                    sauvegarde = IA.PoserPieceIA(out int position, idPiece, plateau);
-                    IHM.AfficherEcranJeux(plateau);
-                    gagner = TesterVictoire(idPiece, position, plateau);
+                    IHM.AfficherConseil(0);
+                    int idPiece =ChoisirPiece(piecesJouables, sauvegarde, plateau, tour, type, piecesRep);
+                    IHM.AfficherEcranJeux(piecesJouables, piecesRep);
+                    sauvegarde = IA.PoserPieceIA(out int position, idPiece, plateau, piecesCalcul);
+                    IHM.AfficherEcranJeux(plateau, piecesRep);
+                    IHM.AfficherConseil(6);
+                    gagner = TesterVictoire(idPiece, position, plateau, piecesCalcul);
                     if (gagner) etat = "PERDU";
                 }
                 // Tour du joueur
                 else
                 {
-                    int idPiece = IA.ChoisirPieceIA(piecesJouables, plateau);
+                    int idPiece = IA.ChoisirPieceIA(piecesJouables, plateau, piecesCalcul, piecesRep);
                     sauvegarde = false;
-                    IHM.AfficherEcranJeux(piecesJouables);
-                    sauvegarde = PoserPiece(out int position, idPiece, plateau, sauvegarde, piecesJouables, tour);
-                    IHM.AfficherEcranJeux(plateau);
-                    gagner = TesterVictoire(idPiece, position, plateau);
+                    IHM.AfficherConseil(1);
+                    IHM.AfficherEcranJeux(piecesJouables, piecesRep);
+                    sauvegarde = PoserPiece(out int position, idPiece, plateau, sauvegarde, piecesJouables, tour, type, piecesRep);
+                    IHM.AfficherEcranJeux(plateau, piecesRep);
+                    IHM.AfficherConseil(6);
+                    gagner = TesterVictoire(idPiece, position, plateau, piecesCalcul);
                     if (gagner) etat = "GAGNER";
 
                 }
@@ -226,11 +231,12 @@ namespace Quarto
             return etat;
         }
 
-        internal static string JeuxJvJ(int[,] plateau, int[] piecesJouables, int tour)
+        internal static string JeuxJvJ(int[,] plateau, int[] piecesJouables, int tour, int[][] piecesCalcul, string[] piecesRep)
         {
+            bool type = false;
             int caseCourante = -1;
             int pieceCourante = -1;
-            IHM.AfficherEcranJeux(plateau, piecesJouables, caseCourante, pieceCourante);
+            IHM.AfficherEcranJeux(plateau, piecesJouables, piecesRep, caseCourante, pieceCourante);
             string etat = "JEUX_2";
             bool gagner = false;
             //============================================================================================================
@@ -245,25 +251,31 @@ namespace Quarto
                 // Tour du joueur 1
                 if (tour % 2 == 0)
                 {
-                    int idPiece = ChoisirPiece(piecesJouables, sauvegarde, plateau, tour);
+                    IHM.AfficherConseil(2);
+                    int idPiece = ChoisirPiece(piecesJouables, sauvegarde, plateau, tour, type, piecesRep);
                     sauvegarde = false;
-                    IHM.AfficherEcranJeux(piecesJouables);
-                    IHM.AfficherChoixOrdi(idPiece);
-                    sauvegarde = PoserPiece(out int position, idPiece, plateau, sauvegarde, piecesJouables, tour);
-                    IHM.AfficherEcranJeux(plateau);
-                    gagner = TesterVictoire(idPiece, position, plateau);
+                    IHM.AfficherEcranJeux(piecesJouables, piecesRep);
+                    IHM.AfficherChoixOrdi(idPiece, piecesRep);
+                    IHM.AfficherConseil(4);
+                    sauvegarde = PoserPiece(out int position, idPiece, plateau, sauvegarde, piecesJouables, tour, type, piecesRep);
+                    IHM.AfficherEcranJeux(plateau, piecesRep);
+                    IHM.AfficherConseil(6);
+                    gagner = TesterVictoire(idPiece, position, plateau, piecesCalcul);
                     if (gagner) etat = "GAGNER";
                 }
                 // Tour du joueur 2
                 else
                 {
-                    int idPiece = ChoisirPiece(piecesJouables, sauvegarde, plateau, tour);
-                    IHM.AfficherChoixOrdi(idPiece);
+                    IHM.AfficherConseil(3);
+                    int idPiece = ChoisirPiece(piecesJouables, sauvegarde, plateau, tour, type, piecesRep);
+                    IHM.AfficherChoixOrdi(idPiece, piecesRep);
                     sauvegarde = false;
-                    IHM.AfficherEcranJeux(piecesJouables);
-                    sauvegarde = PoserPiece(out int position, idPiece, plateau, sauvegarde, piecesJouables, tour);
-                    IHM.AfficherEcranJeux(plateau);
-                    gagner = TesterVictoire(idPiece, position, plateau);
+                    IHM.AfficherEcranJeux(piecesJouables, piecesRep);
+                    IHM.AfficherConseil(5);
+                    sauvegarde = PoserPiece(out int position, idPiece, plateau, sauvegarde, piecesJouables, tour, type, piecesRep);
+                    IHM.AfficherEcranJeux(plateau, piecesRep);
+                    IHM.AfficherConseil(6);
+                    gagner = TesterVictoire(idPiece, position, plateau, piecesCalcul);
                     if (gagner) etat = "GAGNER";
                 }
                 tour++;
@@ -271,26 +283,8 @@ namespace Quarto
             return etat;
         }
 
-        internal static bool TesterVictoire(int idPiece, int position, int [,] plateau)
+        internal static bool TesterVictoire(int idPiece, int position, int [,] plateau, int[][] piecesCalcul)
         {
-            int[][] piecesCalcul = new int[16][]; // à mettre en général dans Game et à passer en paramètres !
-            piecesCalcul[0] = new int[] { 0, 0, 0, 0 };
-            piecesCalcul[1] = new int[] { 0, 0, 0, 1 };
-            piecesCalcul[2] = new int[] { 0, 0, 1, 0 };
-            piecesCalcul[3] = new int[] { 0, 0, 1, 1 };
-            piecesCalcul[4] = new int[] { 0, 1, 0, 0 };
-            piecesCalcul[5] = new int[] { 0, 1, 0, 1 };
-            piecesCalcul[6] = new int[] { 0, 1, 1, 0 };
-            piecesCalcul[7] = new int[] { 0, 1, 1, 1 };
-            piecesCalcul[8] = new int[] { 1, 0, 0, 0 };
-            piecesCalcul[9] = new int[] { 1, 0, 0, 1 };
-            piecesCalcul[10] = new int[] { 1, 0, 1, 0 };
-            piecesCalcul[11] = new int[] { 1, 0, 1, 1 };
-            piecesCalcul[12] = new int[] { 1, 1, 0, 0 };
-            piecesCalcul[13] = new int[] { 1, 1, 0, 1 };
-            piecesCalcul[14] = new int[] { 1, 1, 1, 0 };
-            piecesCalcul[15] = new int[] { 1, 1, 1, 1 };
-
             Pos2Coord(out int ligne, out int colonne, position);
             char diagonale;
             bool gagner = false;
@@ -376,9 +370,9 @@ namespace Quarto
             player.Play();
         }
 
-        internal static void SauvegarderPartie(int[,] plateau, int[] piecesJouables, int tour)
+        internal static void SauvegarderPartie(int[,] plateau, int[] piecesJouables, int tour, bool type)
         {
-            string nom = FaireNom();
+            string nom = FaireNom(type);
             string ligne1 = "", ligne2 = "", ligne3 = Convert.ToString(tour);
             foreach (int piece in plateau)
             {
@@ -392,13 +386,16 @@ namespace Quarto
             System.IO.File.WriteAllLines(@"../../Sauvegardes\\" + nom + ".txt", donnees);
         }
 
-        private static string FaireNom()
+        private static string FaireNom(bool type)
         {
+            string tete;
+            if (type) tete = "PvO_";
+            else tete = "PvP_";
             DateTime info = System.DateTime.Now;
             string[] dateHeure = Convert.ToString(info).Split(' ');
             string date = dateHeure[0].Replace('/', '-');
             string heure = dateHeure[1].Replace(':', '-').Substring(0, dateHeure[1].Length - 3);
-            string nom = "PvO_" + Convert.ToString(date) + "_" + heure;
+            string nom = tete + Convert.ToString(date) + "_" + heure;
             return nom;
         }
     }

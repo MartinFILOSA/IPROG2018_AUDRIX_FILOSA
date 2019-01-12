@@ -5,11 +5,42 @@ namespace Quarto
 {
     class Game
     {
+        //TODO: Afficher ligne gagnante
+        //TODO: IA ++
+        
+        //TODO: Tips Box + (menu de selection si besoin)
+        
+        //TODO: refonte
+        //TODO: Texte réparti devient l'affichage des boutons
+        //TODO: Ecran de chargement
+
+
         public static void Main(string[] args)
         {
             //Utilisables.JouerMusiqueIntro();
             int[,] plateau = new int[4, 4]; // variable représentant l'état du plateu de jeux pendant la partie
             int[] piecesJouables = new int[16]; // variable contenant l'identifiant des pieces encore disponibles
+
+            int[][] piecesCalcul = new int[16][]; // à mettre en général dans Game et à passer en paramètres !
+            piecesCalcul[0] = new int[] { 0, 0, 0, 0 };
+            piecesCalcul[1] = new int[] { 0, 0, 0, 1 };
+            piecesCalcul[2] = new int[] { 0, 0, 1, 0 };
+            piecesCalcul[3] = new int[] { 0, 0, 1, 1 };
+            piecesCalcul[4] = new int[] { 0, 1, 0, 0 };
+            piecesCalcul[5] = new int[] { 0, 1, 0, 1 };
+            piecesCalcul[6] = new int[] { 0, 1, 1, 0 };
+            piecesCalcul[7] = new int[] { 0, 1, 1, 1 };
+            piecesCalcul[8] = new int[] { 1, 0, 0, 0 };
+            piecesCalcul[9] = new int[] { 1, 0, 0, 1 };
+            piecesCalcul[10] = new int[] { 1, 0, 1, 0 };
+            piecesCalcul[11] = new int[] { 1, 0, 1, 1 };
+            piecesCalcul[12] = new int[] { 1, 1, 0, 0 };
+            piecesCalcul[13] = new int[] { 1, 1, 0, 1 };
+            piecesCalcul[14] = new int[] { 1, 1, 1, 0 };
+            piecesCalcul[15] = new int[] { 1, 1, 1, 1 };
+
+            string[] piecesRep = IHM.CreerPiecesGraphique();
+
             string etat = "MENU_1";
             IHM.InitialiserGraphiques();
             //IHM.AfficherIntro();
@@ -82,21 +113,17 @@ namespace Quarto
                         break;
                     case "NVX_ORDI":
                         nvxOrdi = IHM.ChoixNiveau();
-                        Console.Clear();
-                        Console.Write(nvxOrdi);
-                        Console.Read();
                         etat = "JEUX";
                         break;
                     case "JEUX_2":
                         int tour = Utilisables.InitialiserPartie(nomFichier, ref plateau, ref piecesJouables);
                         IHM.InitialiserEcranJeux();
-                        etat = Utilisables.JeuxJvJ(plateau, piecesJouables, tour);
+                        etat = Utilisables.JeuxJvJ(plateau, piecesJouables, tour, piecesCalcul, piecesRep);
                         break;
                     case "JEUX":
                         tour = Utilisables.InitialiserPartie(nomFichier, ref plateau, ref piecesJouables);
-                        //Select computer lvl
                         IHM.InitialiserEcranJeux();
-                        etat = Utilisables.JeuxJvO(plateau, piecesJouables, tour);
+                        etat = Utilisables.JeuxJvO(plateau, piecesJouables, tour, piecesCalcul, nvxOrdi, piecesRep);
                         break;
                     case "GAGNER":
                         IHM.AfficherEcranVictoire(true);
